@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meta GEM — 10분 요약 (회의용)</title>
+<title>Meta GEM — 요약본 (회의용)</title>
 <style>
   :root {
     --bg: #0b1220;
@@ -28,282 +28,418 @@
     background: linear-gradient(135deg, #14224a 0%, #1a1340 100%);
     border-radius: 20px;
     padding: 32px 36px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
   .tag { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.5px; margin-bottom: 12px; }
-  h1 { font-size: 28px; line-height: 1.3; margin: 0 0 8px; }
+  h1 { font-size: 26px; line-height: 1.3; margin: 0 0 8px; }
   .subtitle { color: var(--muted); font-size: 14px; }
 
-  section { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 16px; scroll-margin-top: 20px; }
-  h2 { font-size: 20px; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; }
-  h2 .num { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; background: var(--accent); color: #fff; border-radius: 8px; font-size: 13px; font-weight: 700; padding: 0 8px; flex-shrink: 0; }
-  h3 { font-size: 16px; margin: 20px 0 8px; color: #cfe0ff; }
-  p { margin: 8px 0 12px; color: #d6dff0; font-size: 15px; }
-  ul { padding-left: 20px; margin: 6px 0 12px; }
-  li { margin: 7px 0; font-size: 15px; color: #d6dff0; }
+  section { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px 28px; margin-bottom: 12px; scroll-margin-top: 20px; }
+  h2 { font-size: 18px; margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 26px; background: var(--accent); color: #fff; border-radius: 7px; font-size: 13px; font-weight: 700; padding: 0 7px; flex-shrink: 0; }
+  h3 { font-size: 15px; margin: 16px 0 7px; color: #cfe0ff; }
+  p { margin: 6px 0 10px; color: #d6dff0; font-size: 14px; }
+  ul { padding-left: 18px; margin: 6px 0 10px; }
+  li { margin: 5px 0; font-size: 14px; color: #d6dff0; }
+  strong { color: #fff; }
+  code { background: var(--panel-2); padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #cfe0ff; }
 
-  .tldr { background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(124,92,255,0.08)); border-left: 4px solid var(--accent); padding: 18px 22px; border-radius: 12px; margin-bottom: 16px; }
-  .tldr strong { color: #fff; }
+  .tldr { background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(124,92,255,0.08)); border-left: 4px solid var(--accent); padding: 16px 20px; border-radius: 12px; margin-bottom: 14px; font-size: 15px; }
 
-  .callout { background: rgba(34,197,94,0.08); border-left: 4px solid var(--good); padding: 14px 18px; border-radius: 10px; margin: 14px 0; font-size: 14px; }
+  .callout { background: rgba(34,197,94,0.08); border-left: 4px solid var(--good); padding: 12px 16px; border-radius: 10px; margin: 10px 0; font-size: 13px; }
   .callout.warn { background: rgba(245,158,11,0.08); border-left-color: var(--warn); }
   .callout.tip { background: rgba(124,92,255,0.08); border-left-color: var(--accent-2); }
+  .callout.bad { background: rgba(239,68,68,0.08); border-left-color: var(--bad); }
 
-  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
-  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; }
+  th, td { text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--border); vertical-align: top; }
   th { background: var(--panel-2); color: #cfe0ff; font-weight: 600; }
   tr:last-child td { border-bottom: none; }
 
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
-  .box { padding: 14px 16px; border-radius: 10px; font-size: 14px; line-height: 1.65; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+  .box { padding: 12px 14px; border-radius: 10px; font-size: 13px; line-height: 1.65; }
   .box.before { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.25); }
   .box.after { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.25); }
-  .box .label { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .box .label { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 7px; }
   .box.before .label { color: var(--bad); }
   .box.after .label { color: var(--good); }
 
-  .action-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--border); margin: 8px 0; }
-  .action-num { display: flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; background: var(--accent); color: #fff; border-radius: 8px; font-size: 14px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
-  .action-body { flex: 1; }
-  .action-body strong { color: #fff; font-size: 15px; display: block; margin-bottom: 4px; }
-  .action-body span { color: var(--muted); font-size: 13px; line-height: 1.6; }
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0; }
+  .stat { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+  .stat .val { font-size: 24px; font-weight: 700; color: var(--accent); }
+  .stat .lbl { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.5; }
 
-  .big-arrow { text-align: center; font-size: 22px; color: var(--muted); margin: 4px 0; }
-
-  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
-  .stat { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
-  .stat .val { font-size: 26px; font-weight: 700; color: var(--accent); }
-  .stat .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
-
-  .chip { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; margin: 2px; }
-
-  nav.toc { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; margin-bottom: 20px; font-size: 14px; }
+  nav.toc { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 18px; margin-bottom: 16px; font-size: 13px; }
   nav.toc strong { color: #cfe0ff; display: block; margin-bottom: 6px; }
-  nav.toc a { color: var(--muted); text-decoration: none; margin-right: 14px; line-height: 2.2; }
+  nav.toc a { color: var(--muted); text-decoration: none; margin-right: 10px; line-height: 2.2; }
   nav.toc a:hover { color: var(--accent); }
 
-  .notice { background: rgba(79,140,255,0.06); border: 1px solid rgba(79,140,255,0.2); border-radius: 10px; padding: 10px 16px; font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .notice { background: rgba(79,140,255,0.06); border: 1px solid rgba(79,140,255,0.2); border-radius: 10px; padding: 9px 14px; font-size: 12px; color: var(--muted); margin-bottom: 16px; }
   .notice a { color: var(--accent); }
+
+  .ba-box { background: rgba(79,140,255,0.05); border: 1px solid rgba(79,140,255,0.18); border-radius: 10px; padding: 14px 16px; margin: 10px 0; }
+  .ba-box .ba-label { color: var(--accent); font-size: 12px; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.4px; }
+
+  .key-points { background: var(--panel-2); border-radius: 10px; padding: 14px 18px; margin: 10px 0; }
+  .key-points .kp-item { display: flex; gap: 10px; align-items: flex-start; margin: 7px 0; font-size: 14px; color: #d6dff0; }
+  .key-points .kp-num { min-width: 22px; height: 22px; background: var(--accent); color: #fff; border-radius: 6px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+  .timeline-compact { padding-left: 20px; border-left: 2px solid var(--accent); margin: 10px 0; }
+  .tl-item { margin-bottom: 12px; }
+  .tl-item .tl-date { color: var(--accent); font-size: 12px; font-weight: 700; }
+  .tl-item .tl-text { font-size: 13px; color: #d6dff0; }
 </style>
 </head>
 <body>
 <div class="wrap">
 
   <header class="hero">
-    <div class="tag">회의용 · 10분 요약</div>
-    <h1>메타 광고가 바뀌었다<br>우리는 무엇을 바꿔야 하나</h1>
+    <div class="tag">회의용 · 요약본</div>
+    <h1>메타 광고가 바뀌었다 — 우리는 무엇을 바꿔야 하나</h1>
     <p class="subtitle">Meta GEM(Generative Ads Model) 핵심 정리 · 2026년 5월</p>
   </header>
 
   <div class="notice">
-    📄 더 자세한 내용은 전체 문서를 참고하세요 → <a href="meta_gem_정리.html" target="_blank">meta_gem_정리.html</a>
+    📄 각 섹션의 상세 내용은 전체 문서에서 → <a href="index.html" target="_blank">전체 가이드 (index.html)</a>
   </div>
 
   <nav class="toc">
     <strong>목차</strong>
-    <a href="#s1">① 한 줄 요약</a>
-    <a href="#s2">② 무엇이 바뀌었나</a>
-    <a href="#s3">③ 가장 큰 변화 — 타겟팅</a>
-    <a href="#s4">④ 우리가 해야 할 3가지</a>
-    <a href="#s5">⑤ 바리바디 현황</a>
-    <a href="#s6">⑥ 다음 스텝</a>
+    <a href="#s1">① 30초 요약</a>
+    <a href="#s2">② GEM이 뭐예요?</a>
+    <a href="#s3">③ 3단계 AI 시스템</a>
+    <a href="#s4">④ 적용 타임라인</a>
+    <a href="#s5">⑤ 광고주에게 달라진 것</a>
+    <a href="#s6">⑥ 마케터 역할 변화</a>
+    <a href="#s7">⑦ 왜 그래야 하나?</a>
+    <a href="#s8">⑧ 콘텐츠 실행 가이드</a>
+    <a href="#s9">⑨ 광고 세팅 가이드</a>
+    <a href="#s10">⑩ 광고 운영 가이드</a>
+    <a href="#s11">⑪ 타게팅 가이드</a>
+    <a href="#s12">⑫ 우선순위 체크리스트</a>
+    <a href="#s13">⑬ 앞으로의 방향</a>
   </nav>
 
   <!-- S1 -->
   <section id="s1">
-    <h2><span class="num">1</span> 한 줄 요약</h2>
+    <h2><span class="num">1</span> 30초 요약</h2>
     <div class="tldr">
-      <strong>메타 광고는 이제 "우리가 타겟을 고르는 시스템"이 아닙니다.<br>
-      AI가 타겟을 찾아냅니다. 마케터는 AI에게 좋은 재료를 주는 역할로 바뀌었습니다.</strong>
+      메타가 광고 AI의 "중앙 두뇌"인 <strong>GEM</strong>이라는 거대 AI를 만들었습니다(ChatGPT와 같은 규모).
+      출시 직후 <strong>인스타 전환 +5%, 페이스북 피드 전환 +3%</strong>. 대신 마케터의 역할이 바뀌었습니다.
+      <strong>예전처럼 타겟팅을 정교하게 짜는 시대는 끝</strong>났고, 이제는 <strong>AI에게 좋은 소재와 깨끗한 신호를 공급하는 사람</strong>이 이깁니다.
     </div>
     <div class="stat-row">
-      <div class="stat">
-        <div class="val">+5%</div>
-        <div class="lbl">인스타그램<br>광고 전환율 증가</div>
-      </div>
-      <div class="stat">
-        <div class="val">+3%</div>
-        <div class="lbl">페이스북 피드<br>광고 전환율 증가</div>
-      </div>
-      <div class="stat">
-        <div class="val">4×</div>
-        <div class="lbl">기존 모델 대비<br>학습 효율</div>
-      </div>
+      <div class="stat"><div class="val">+5%</div><div class="lbl">인스타 광고<br>전환 증가</div></div>
+      <div class="stat"><div class="val">+3%</div><div class="lbl">페이스북 피드<br>전환 증가</div></div>
+      <div class="stat"><div class="val">4×</div><div class="lbl">기존 대비<br>학습 효율</div></div>
     </div>
-    <p style="font-size: 13px; color: var(--muted);">출처: Meta Engineering Blog, 2025.11</p>
   </section>
 
   <!-- S2 -->
   <section id="s2">
-    <h2><span class="num">2</span> 무엇이 바뀌었나 — 3단계 AI 시스템</h2>
-    <p>메타는 2024년 말~2025년에 걸쳐 광고 시스템을 통째로 교체했습니다. 지금은 3개의 AI가 순서대로 광고 노출을 결정합니다.</p>
+    <h2><span class="num">2</span> GEM이 뭐예요?</h2>
+    <p>GEM은 메타가 만든 광고 추천 AI 모델입니다. 직접 광고를 보여주지 않고, 수백 개의 작은 광고 AI들에게 자기 노하우를 가르쳐 전체 시스템을 똑똑하게 만드는 <strong>"수석 코치"</strong> 역할입니다.</p>
 
-    <table>
-      <thead><tr><th>단계</th><th>이름</th><th>하는 일</th><th>마케터 관점</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>1단계</strong></td>
-          <td><strong>Andromeda</strong><br><span style="color:var(--muted);font-size:12px;">후보 선별</span></td>
-          <td>수백만 광고 중 사용자 1인당 약 1,000개 추림.<br>광고의 이미지·영상·카피를 직접 읽어서 매칭</td>
-          <td>여기서 걸러지면 노출 자체가 안 됨</td>
-        </tr>
-        <tr>
-          <td><strong>2단계</strong></td>
-          <td><strong>GEM</strong><br><span style="color:var(--muted);font-size:12px;">정밀 평가</span></td>
-          <td>1,000개 후보를 정밀 점수화.<br>전환 가능성, 사용자 구매 여정 단계까지 예측</td>
-          <td>신호 데이터(CAPI)와 소재 다양성이 학습의 연료</td>
-        </tr>
-        <tr>
-          <td><strong>3단계</strong></td>
-          <td><strong>Lattice</strong><br><span style="color:var(--muted);font-size:12px;">노출 결정</span></td>
-          <td>피드·스토리·릴스 등 전체 지면을 통합 랭킹.<br>어디에 어떤 포맷으로 보여줄지 결정</td>
-          <td>플레이스먼트 자동화가 권장되는 이유</td>
-        </tr>
-      </tbody>
-    </table>
+    <p>핵심은 GEM이 <strong>멀티모달(Multimodal) 학습</strong>을 한다는 점입니다 — 텍스트·이미지·영상·오디오·행동 데이터를 따로따로가 아니라 <strong>한꺼번에 연결해서</strong> 봅니다.</p>
+
+    <div class="callout tip">
+      📺 <strong>예전 AI</strong>: "이 광고 → 클릭 327번, 구매 12번" — 숫자만 기록, 광고 안에 뭐가 있는지 무시<br><br>
+      <strong>GEM</strong>: 광고를 직접 보고 읽고 듣습니다. 영상 속 배경·카피 톤·출연자 유무를 사람의 구매 행동과 연결해서 패턴을 찾아냅니다.<br><br>
+      → <strong>소재 안에 담긴 맥락이 곧 타겟팅</strong>이 되는 구조
+    </div>
   </section>
 
   <!-- S3 -->
   <section id="s3">
-    <h2><span class="num">3</span> 가장 큰 변화 — 타겟팅 패러다임</h2>
+    <h2><span class="num">3</span> 메타 광고 3단계 AI 시스템</h2>
+    <p>내 광고가 사용자에게 도달하기까지 3개의 AI를 순서대로 통과합니다.</p>
 
-    <div class="two-col">
-      <div class="box before">
-        <div class="label">❌ 예전 방식</div>
-        소재에 반응한 사람들을<br>
-        <strong style="color:#fff;">인구통계학적으로 분석</strong>해서<br>
-        타겟 박스를 만들고<br>
-        그 안에서만 찾음<br><br>
-        <span style="color:var(--muted);font-size:13px;">"30대 여성, 서울, 피트니스 관심"</span>
-      </div>
-      <div class="box after">
-        <div class="label">✅ 지금 방식</div>
-        소재에 반응한 사람들의<br>
-        <strong style="color:#fff;">행동 패턴을 학습</strong>해서<br>
-        패턴이 유사한 사람을<br>
-        인구통계 무관하게 찾아냄<br><br>
-        <span style="color:var(--muted);font-size:13px;">40대 남성도, 20대도 찾아냄</span>
-      </div>
-    </div>
+    <table>
+      <thead><tr><th>단계</th><th>이름</th><th>하는 일</th><th>마케터 관점 핵심</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>1단계</strong></td>
+          <td><strong>Andromeda</strong><br><span style="color:var(--muted);font-size:11px;">후보 선별</span></td>
+          <td>수백만 광고 중 1인당 ~1,000개 추림. 이미지·영상·카피를 의미론적으로 읽어서 매칭.</td>
+          <td>여기서 걸러지면 노출 자체가 안 됨. 소재가 Andromeda에 "읽혀야" 경쟁에 올라감.</td>
+        </tr>
+        <tr>
+          <td><strong>2단계</strong></td>
+          <td><strong>GEM</strong><br><span style="color:var(--muted);font-size:11px;">정밀 평가</span></td>
+          <td>1,000개 후보를 정밀 점수화. 전환 가능성·구매 여정 단계까지 예측.</td>
+          <td>전환 신호(CAPI)와 소재 다양성이 학습의 연료.</td>
+        </tr>
+        <tr>
+          <td><strong>3단계</strong></td>
+          <td><strong>Lattice</strong><br><span style="color:var(--muted);font-size:11px;">노출 결정</span></td>
+          <td>피드·스토리·릴스 전체 지면을 통합 랭킹. 어디에 어떤 포맷으로 보여줄지 결정.</td>
+          <td>플레이스먼트 자동화가 권장되는 이유.</td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="callout tip">
-      💡 <strong>핵심</strong> — 타겟팅 옵션으로 범위를 좁히면 AI가 더 좋은 고객을 못 찾게 막는 셈입니다.<br>
-      <strong>소재 안에 담긴 언어·상황·인물이 곧 타겟팅 신호</strong>가 됩니다.
+      🎯 이 3단계 모두 AI가 자동으로 결정. 광고주가 통제할 수 있는 건 단 하나:<br>
+      → <strong>"AI에게 어떤 재료(소재)와 신호(전환 데이터)를 줄 것인가"</strong>
     </div>
   </section>
 
   <!-- S4 -->
   <section id="s4">
-    <h2><span class="num">4</span> 우리가 해야 할 3가지</h2>
+    <h2><span class="num">4</span> 언제부터 적용됐나 — 적용 타임라인</h2>
+    <p>많은 마케터들이 "2024년 말부터 광고가 이상해졌다"고 느끼는데, 메타는 3단계에 걸쳐 광고 시스템을 통째로 교체해왔습니다.</p>
 
-    <div class="action-row">
-      <div class="action-num">1</div>
-      <div class="action-body">
-        <strong>소재 다양성 확보 — "의미가 다른" 크리에이티브</strong>
-        <span>
-          색깔·카피 한 줄만 바꾸는 건 AI가 같은 소재로 묶습니다(Entity ID). 훅·출연진·메시지 각도가 본질적으로 달라야 합니다.<br>
-          캠페인당 <strong>5~15개</strong>가 최적. 예산을 늘릴 때는 소재도 반드시 같이 늘려야 합니다.<br>
-          권장 루틴: <strong>주 4~6개 신규 소재 투입</strong>
-        </span>
+    <div class="timeline-compact">
+      <div class="tl-item">
+        <div class="tl-date">2023년</div>
+        <div class="tl-text">Advantage+ 캠페인 본격 확대. AI 자동화 비중 증가 시작.</div>
       </div>
-    </div>
-
-    <div class="action-row">
-      <div class="action-num">2</div>
-      <div class="action-body">
-        <strong>캠페인 구조 단순화 — 쪼개지 않는다</strong>
-        <span>
-          같은 제품을 타겟 연령·관심사별로 캠페인 분리 → 모든 캠페인이 학습 부족 상태에 빠짐.<br>
-          <strong>제품별로 나누는 건 OK</strong>, 타겟별로 나누는 건 NG.<br>
-          각 캠페인이 <strong>주당 50건 이상의 전환</strong>을 만들 수 있어야 학습이 됩니다.
-        </span>
+      <div class="tl-item">
+        <div class="tl-date">2024년 하반기</div>
+        <div class="tl-text"><strong>Andromeda 도입</strong> — 소재를 의미론적으로 읽는 1단계 선별 엔진 배포. "광고가 달라졌다" 체감 시작.</div>
       </div>
-    </div>
-
-    <div class="action-row">
-      <div class="action-num">3</div>
-      <div class="action-body">
-        <strong>신호 품질 관리 — CAPI + 마이크로 전환 ✅ 완료</strong>
-        <span>
-          Safari ITP·인앱 브라우저·광고 차단기로 픽셀만으로는 데이터의 30~50%가 사라집니다.<br>
-          CAPI(서버 전송)로 이를 보완하고, 장바구니 추가·결제 시작 같은 마이크로 전환도 함께 전송해야<br>
-          GEM이 더 빠르게 학습합니다.
-        </span>
+      <div class="tl-item">
+        <div class="tl-date">2025년 Q1~Q2</div>
+        <div class="tl-text"><strong>GEM 출시</strong> — 인스타 +5%, 페이스북 피드 +3% 전환. 광고 시스템 전면 전환.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2025년 Q3</div>
+        <div class="tl-text">GEM 아키텍처 개선 — 데이터·컴퓨팅 대비 학습 효율 2배 추가 향상.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">2026년 (지금)</div>
+        <div class="tl-text"><strong>새 운영 방식이 본격 정착하는 시기.</strong> "예전 방식으로 회복되겠지"는 더 이상 통하지 않음.</div>
       </div>
     </div>
   </section>
 
   <!-- S5 -->
   <section id="s5">
-    <h2><span class="num">5</span> 바리바디 현황 (5월 기준)</h2>
+    <h2><span class="num">5</span> 광고주에게 뭐가 달라졌나</h2>
 
-    <table>
-      <thead><tr><th>제품</th><th>일 예산</th><th>권장 소재 수</th><th>운영 방향</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>릴렉스틱</strong></td>
-          <td>82만원</td>
-          <td>12~15개</td>
-          <td>볼륨 전략 — 소재 공급이 핵심</td>
-        </tr>
-        <tr>
-          <td><strong>릴렉스틱볼</strong></td>
-          <td>59만원</td>
-          <td>10~12개</td>
-          <td>효율·볼륨 균형</td>
-        </tr>
-        <tr>
-          <td><strong>EMS + 올인원 묶음</strong></td>
-          <td>16만원</td>
-          <td>5~7개</td>
-          <td>효율 유지 — 단독 분리 시 학습 부족</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="callout warn">
-      ⚠️ 릴렉스틱은 일 예산이 크게 늘어난 만큼 <strong>소재 공급이 따라가지 못하면 ROAS가 더 떨어집니다.</strong><br>
-      예산 증액 전에 소재를 먼저 확보하는 것이 원칙입니다.
+    <div class="stat-row">
+      <div class="stat"><div class="val">+22%</div><div class="lbl">Advantage+ 크리에이티브<br>사용 시 ROAS 향상</div></div>
+      <div class="stat"><div class="val">-18%</div><div class="lbl">CAPI 잘 세팅했을 때<br>CPA 감소</div></div>
+      <div class="stat"><div class="val">30~50%</div><div class="lbl">픽셀만으론 누락되는<br>커머스 전환 데이터</div></div>
     </div>
+
+    <ul>
+      <li>✅ Advantage+ 자동 캠페인의 정확도가 눈에 띄게 올라감</li>
+      <li>✅ 소재와 적합한 사람을 메타가 알아서 매칭해 줌</li>
+      <li>⚠️ <strong>수동 타겟팅(좁은 관심사·세밀한 유사대상)</strong>을 고집하는 계정은 성과 하락</li>
+      <li>⚠️ 마이크로 A/B 테스트(버튼 색, 카피 한 줄 변경)는 의미 없어짐</li>
+      <li>⚠️ <strong>소재 부족</strong>이 가장 큰 성과 발목으로 부상</li>
+    </ul>
   </section>
 
   <!-- S6 -->
   <section id="s6">
-    <h2><span class="num">6</span> 다음 스텝</h2>
+    <h2><span class="num">6</span> 마케터 역할 변화</h2>
 
-    <div class="action-row">
-      <div class="action-num" style="background:var(--good);">✅</div>
-      <div class="action-body">
-        <strong>CAPI + 마이크로 전환 세팅</strong>
-        <span>완료</span>
+    <table>
+      <thead><tr><th></th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr></thead>
+      <tbody>
+        <tr><td><strong>역할</strong></td><td>🛠️ 운영자</td><td>🎨 설계자</td></tr>
+        <tr><td><strong>주된 일</strong></td><td>타겟팅 정교화, 입찰 조정, 매일 캠페인 수정</td><td>좋은 소재 다양하게 공급, 깨끗한 데이터 신호 확보</td></tr>
+        <tr><td><strong>승부처</strong></td><td>"내가 얼마나 잘 타겟팅하느냐"</td><td>"AI에게 얼마나 좋은 환경을 만들어 주느냐"</td></tr>
+        <tr><td><strong>가장 중요한 것</strong></td><td>오디언스 인사이트, 좁은 관심사 세팅</td><td>소재의 양과 질, 신호 데이터 품질</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout tip">
+      💡 타겟팅이 AI에게 넘어간 만큼, 통제할 수 있는 영역이 줄어든 게 아니라 <strong>"옮겨갔다"</strong>고 보는 게 맞습니다.<br>
+      옮겨간 곳: <strong>소재 양산 능력 + 데이터 인프라</strong>
+    </div>
+  </section>
+
+  <!-- S7 -->
+  <section id="s7">
+    <h2><span class="num">7</span> 왜 그래야 하나? — 핵심 원리 6가지</h2>
+
+    <div class="key-points">
+      <div class="kp-item">
+        <div class="kp-num">Q1</div>
+        <div><strong>깨끗한 전환 데이터가 왜 중요한가?</strong> — 커머스 픽셀 데이터는 평균 30~50% 누락. AI는 "절반의 정답지"만 보고 학습 → 잘못된 사람에게 광고 노출. CAPI(서버 전송)가 필수인 이유.</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-num">Q2</div>
+        <div><strong>소재 + 신호 2가지가 왜 승부처?</strong> — 타겟팅·입찰·플레이스먼트는 AI가 가져갔음. 마케터가 통제하는 건 딱 두 가지: ① 무엇을 보여줄지(소재) ② 어떤 결과 데이터를 줄지(신호).</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-num">Q3</div>
+        <div><strong>어떻게 대처?</strong> — 소재: 주 4~6개 신규, P.D.A 프레임워크 기반 다양성 확보. 신호: CAPI + EMQ 9.0 이상 + 마이크로 전환 전송.</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-num">Q4</div>
+        <div><strong>좁은 타겟팅이 왜 성과 떨어지나?</strong> — ① AI 손 묶기(더 좋은 고객 놓침) ② 주당 50건 전환 채우기 어려움(학습 정체) ③ 좁은 풀에서 경쟁 심화 → CPM 상승.</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-num">Q5</div>
+        <div><strong>마이크로 A/B 테스트가 왜 의미 없나?</strong> — Andromeda는 비슷한 소재를 "Entity ID"로 묶어 같은 광고로 처리. CTA 색·카피 한 줄만 다른 광고는 별개 소재로 인식 안 됨.</div>
+      </div>
+      <div class="kp-item">
+        <div class="kp-num">Q6</div>
+        <div><strong>소재 부족이 왜 ROAS 발목인가?</strong> — 소재 2~3개 → AI 패턴 발견 불가. 10~15개부터 의미 있는 학습 시작. 비슷한 광고 30개 → Entity ID 1개 → 노출 기회 1개. 다른 광고 10개 → 노출 기회 10개.</div>
       </div>
     </div>
+  </section>
 
-    <div class="action-row">
-      <div class="action-num">→</div>
-      <div class="action-body">
-        <strong>소재 생산 루틴 안착 — 주 4~6개 신규</strong>
-        <span>
-          릴렉스틱 위주로 P.D.A 프레임워크(Persona·Desire·Awareness) 기반 소재 기획.<br>
-          같은 제품이라도 "야근하는 직장인" vs "육아 중인 부모" 처럼 상황·욕구·인지 단계를 달리해서 제작.
-        </span>
-      </div>
+  <!-- S8 -->
+  <section id="s8">
+    <h2><span class="num">8</span> 콘텐츠(소재) 실행 가이드</h2>
+
+    <div class="ba-box">
+      <div class="ba-label">🔄 이전 vs 지금</div>
+      <table>
+        <thead><tr><th>구분</th><th>예전</th><th>지금</th></tr></thead>
+        <tbody>
+          <tr><td>소재 수</td><td>2~5개로 충분</td><td><strong>10~15개 이상</strong>, 상위 광고주 20~50개</td></tr>
+          <tr><td>테스트 방식</td><td>카피·CTA 색 살짝 바꿔 A/B</td><td>훅·출연진·메시지 각도가 <strong>본질적으로 다른</strong> 소재</td></tr>
+          <tr><td>주된 포맷</td><td>1:1 정사각형</td><td><strong>9:16 세로 영상 40%</strong> 이상</td></tr>
+          <tr><td>핵심 KPI</td><td>CTR, CPC</td><td><strong>Hook Rate(3초), Hold Rate(15초)</strong></td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="action-row">
-      <div class="action-num">→</div>
-      <div class="action-body">
-        <strong>타겟팅 옵션 정리</strong>
-        <span>
-          관심사·세밀한 유사대상 걷어내고 브로드 타겟팅으로 전환.<br>
-          대신 소재 안에 타겟 맥락을 담아 Andromeda가 읽을 수 있게.
-        </span>
-      </div>
+    <div class="key-points">
+      <div class="kp-item"><div class="kp-num">01</div><div><strong>소재 수량</strong>: 광고세트당 5~15개 최적. 예산 100만원 이상 → 12~15개, 40~99만원 → 8~12개, 20~39만원 → 5~8개.</div></div>
+      <div class="kp-item"><div class="kp-num">02</div><div><strong>의미론적 다양성</strong>: 색깔·카피 변형은 중복(Entity ID로 묶임). 훅·출연진·메시지 각도가 달라야 진짜 다른 소재.</div></div>
+      <div class="kp-item"><div class="kp-num">03</div><div><strong>P.D.A 프레임워크</strong>: Persona(상황) × Desire(욕구) × Awareness(인지단계) 조합으로 다양성 확보.</div></div>
+      <div class="kp-item"><div class="kp-num">04</div><div><strong>4가지 유형 골고루</strong>: 제품 중심(3~4개) + 사회적 증거(3~4개) + 오퍼(2~3개) + 브랜드 스토리(2~3개).</div></div>
+      <div class="kp-item"><div class="kp-num">05</div><div><strong>로테이션</strong>: 고정 사이클이 아니라 빈도(Frequency) 지표 기반. 2.5+ 주의, 3.0+ 즉시 교체. 주 4~6개 신규 루틴 유지.</div></div>
+      <div class="kp-item"><div class="kp-num">06</div><div><strong>필터링 소재</strong>: 자극적 낚시성보다 가격·스펙을 명시해 구매 의도 있는 사람만 클릭하게. CTR 낮아도 CVR 높은 소재가 GEM 학습에 좋음.</div></div>
+    </div>
+  </section>
+
+  <!-- S9 -->
+  <section id="s9">
+    <h2><span class="num">9</span> 광고 세팅 실행 가이드</h2>
+
+    <div class="ba-box">
+      <div class="ba-label">🔄 이전 vs 지금</div>
+      <table>
+        <thead><tr><th>구분</th><th>예전</th><th>지금</th></tr></thead>
+        <tbody>
+          <tr><td>캠페인 구조</td><td>5~20개로 잘게 분리</td><td><strong>1~2개로 통합</strong>, Advantage+ 우선</td></tr>
+          <tr><td>예산 운영</td><td>ABO, 일별 미세조정</td><td><strong>CBO</strong>, AI가 자동 분배</td></tr>
+          <tr><td>플레이스먼트</td><td>피드·스토리·릴스 각각 별도 캠페인</td><td><strong>자동 노출 위치</strong>, Lattice가 통합 랭킹</td></tr>
+          <tr><td>입찰 전략</td><td>수동 입찰, 목표 CPA 정교 설정</td><td><strong>최저 비용 자동 입찰</strong></td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="callout" style="margin-top: 20px;">
-      🎯 <strong>결론</strong> — 버튼 누르고 타겟 조정하는 시대는 끝났습니다.<br>
-      <strong>좋은 소재를 만들고, 깨끗한 신호를 주고, AI가 학습할 시간을 주는 것</strong>이 2026년 메타 광고의 전부입니다.
+    <div class="key-points">
+      <div class="kp-item"><div class="kp-num">01</div><div><strong>싱글 버킷</strong>: 광고세트 1~2개 통합. Advantage+ 쇼핑 캠페인 우선. 타겟별·관심사별 쪼개기 금지.</div></div>
+      <div class="kp-item"><div class="kp-num">02</div><div><strong>예산 기준</strong>: 주당 50건 이상 전환이 학습 최소 기준. 일일 최소 예산 = 목표 CPA × 3.</div></div>
+      <div class="kp-item"><div class="kp-num">03</div><div><strong>제품 여러 개일 때</strong>: 제품별 분리는 OK (예산 통제 필요). 타겟별 분리는 NG. 단, 분리된 각 캠페인이 주당 50건 전환을 채울 수 있어야 의미 있음.</div></div>
+      <div class="kp-item"><div class="kp-num">04</div><div><strong>바리바디 구조 (5월 기준)</strong>: 릴렉스틱(일 82만원·소재 12~15개) + 릴렉스틱볼(일 59만원·10~12개) + EMS+올인원 묶음(일 16만원·5~7개).</div></div>
+    </div>
+  </section>
+
+  <!-- S10 -->
+  <section id="s10">
+    <h2><span class="num">10</span> 광고 운영 실행 가이드</h2>
+
+    <div class="ba-box">
+      <div class="ba-label">🔄 이전 vs 지금</div>
+      <table>
+        <thead><tr><th>구분</th><th>예전</th><th>지금</th></tr></thead>
+        <tbody>
+          <tr><td>학습 대기</td><td>3~4일이면 평가 가능</td><td><strong>7일 또는 50 전환</strong>까지 손대지 말기</td></tr>
+          <tr><td>일별 운영</td><td>매일 ROAS 보고 켜기·끄기</td><td><strong>주 단위 검토</strong>, 일일 변동은 무시</td></tr>
+          <tr><td>측정 지표</td><td>플랫폼 ROAS만 보고 판단</td><td><strong>MER + 플랫폼 ROAS + GA4 + CRM</strong> 삼각 측정</td></tr>
+          <tr><td>전환 추적</td><td>메타 픽셀로 충분</td><td><strong>CAPI 필수</strong>, EMQ 9.0 이상 유지</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="key-points">
+      <div class="kp-item"><div class="kp-num">01</div><div><strong>7일 룰</strong>: 광고세트가 50 전환을 모으기 전까지 평가·수정 금지. 학습 단계 개입 = 학습 리셋 = 예산 낭비.</div></div>
+      <div class="kp-item"><div class="kp-num">02</div><div><strong>변경 최소화</strong>: 해도 되는 변경 → 새 소재 추가, 예산 20% 이내 증액. 학습을 망치는 변경 → 일일 켜기·끄기, 예산 50% 이상 급변, 최적화 목표 변경.</div></div>
+      <div class="kp-item"><div class="kp-num">03</div><div><strong>MER 측정</strong>: 총 매출 ÷ 총 광고비. 플랫폼 ROAS는 어트리뷰션 오류로 과대계산되는 경우 많음. MER이 실제 사업 효율의 진짜 지표.</div></div>
+      <div class="kp-item"><div class="kp-num">04</div><div><strong>신호 품질</strong>: CAPI(✅ 완료) + EMQ 9.0 이상 + 마이크로 전환(장바구니 추가·결제 시작) 함께 전송.</div></div>
+    </div>
+  </section>
+
+  <!-- S11 -->
+  <section id="s11">
+    <h2><span class="num">11</span> 타게팅 실행 가이드</h2>
+
+    <div class="ba-box">
+      <div class="ba-label">🔄 이전 vs 지금</div>
+      <table>
+        <thead><tr><th>구분</th><th>예전</th><th>지금</th></tr></thead>
+        <tbody>
+          <tr><td>기본 철학</td><td>"좁고 정교하게 좁힐수록 정확"</td><td><strong>"넓을수록 AI가 잘 찾는다"</strong></td></tr>
+          <tr><td>관심사 타겟</td><td>10~20개 스택해서 정교화</td><td><strong>대부분 빼기</strong> — Andromeda가 소재로 매칭</td></tr>
+          <tr><td>유사 대상</td><td>1%, 2%, 3% 잘게 나눠 테스트</td><td><strong>거의 불필요</strong> — GEM이 자동으로 찾음</td></tr>
+          <tr><td>"누구에게?" 결정</td><td>마케터가 오디언스 설정으로 결정</td><td><strong>소재의 내용</strong>이 결정 (카피·이미지가 신호)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tldr" style="font-size: 14px;">
+      <strong>가장 쉬운 설명</strong><br><br>
+      <strong>예전:</strong> 소재에 반응한 사람들을 인구통계학적으로 분석해서 타겟 박스를 만들고 그 안에서만 찾음<br>
+      → "30대 여성, 서울, 피트니스 관심" 같은 조건 박스<br><br>
+      <strong>지금:</strong> 소재에 반응한 사람들의 <strong>행동 패턴을 학습</strong>해서 패턴이 유사한 사람을 인구통계 무관하게 찾음<br>
+      → 40대 남성도, 20대도 찾아냄<br><br>
+      타겟팅 옵션으로 범위를 좁히면, AI가 더 좋은 고객을 못 찾게 막는 셈입니다.
+    </div>
+
+    <div class="key-points">
+      <div class="kp-item"><div class="kp-num">01</div><div><strong>기본 설정</strong>: 위치·연령·성별만 큰 틀로. 예: "한국 전체, 25~55세" 정도면 충분. 관심사·행동 타겟 빼기.</div></div>
+      <div class="kp-item"><div class="kp-num">02</div><div><strong>타겟팅은 소재로</strong>: "30대 워킹맘"을 타겟하려면 옵션 설정이 아니라 소재 안에 그들의 일상·언어·고민을 담으면 Andromeda가 자동으로 찾음.</div></div>
+      <div class="kp-item"><div class="kp-num">03</div><div><strong>리타겟팅</strong>: Advantage+ 안에 통합. 전체 예산의 20~30% 이내. 신규 고객 확보가 메인.</div></div>
+    </div>
+  </section>
+
+  <!-- S12 -->
+  <section id="s12">
+    <h2><span class="num">12</span> 우선순위 체크리스트</h2>
+
+    <h3>🚨 P1 — 이게 안 되면 다른 거 다 무의미</h3>
+    <table>
+      <thead><tr><th>항목</th><th>효과</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td><strong>CAPI 설정</strong></td><td>CPA -18% 가능</td><td style="color:var(--good);">✅ 완료</td></tr>
+        <tr><td><strong>EMQ 9.0 이상 달성</strong></td><td>입찰 효율 대폭 개선</td><td style="color:var(--warn);">확인 필요</td></tr>
+        <tr><td><strong>캠페인 통합 (1~2개)</strong></td><td>신호 밀도 수십 배 상승</td><td style="color:var(--warn);">점검 필요</td></tr>
+        <tr><td><strong>광고세트당 주당 50 전환 예산</strong></td><td>학습 제한 탈출</td><td style="color:var(--warn);">확인 필요</td></tr>
+      </tbody>
+    </table>
+
+    <h3>🟠 P2 — ROAS 추가 향상</h3>
+    <table>
+      <thead><tr><th>항목</th><th>효과</th></tr></thead>
+      <tbody>
+        <tr><td><strong>소재 10~15개 다양하게 (의미가 다른 것)</strong></td><td>ROAS +22% (Advantage+ 기준)</td></tr>
+        <tr><td><strong>광범위 타겟팅 전환</strong></td><td>CPM 안정 + 신규 고객 확대</td></tr>
+        <tr><td><strong>9:16 세로 영상 비중 40%</strong></td><td>CPM 효율</td></tr>
+        <tr><td><strong>빈도 지표 기반 소재 로테이션</strong></td><td>CTR·CVR 유지</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout bad">
+      ❌ 캠페인을 5~10개로 쪼개기 &nbsp;|&nbsp; ❌ 좁은 관심사·작은 유사대상 &nbsp;|&nbsp; ❌ 마이크로 A/B (카피 한 줄·색깔)<br>
+      ❌ 일일 단위 켜기·끄기 &nbsp;|&nbsp; ❌ 학습 단계(50 전환 전)에서 끄기 &nbsp;|&nbsp; ❌ 플랫폼 ROAS 하나만 보고 판단
+    </div>
+  </section>
+
+  <!-- S13 -->
+  <section id="s13">
+    <h2><span class="num">13</span> 앞으로의 방향</h2>
+    <ul>
+      <li>🎥 <strong>멀티모달 학습 확대</strong> — GEM이 텍스트·이미지·음성·영상을 통합 이해. 소재의 "느낌"까지 AI가 평가하게 됨.</li>
+      <li>🌐 <strong>광고와 오가닉 통합</strong> — 광고와 일반 콘텐츠를 같은 AI가 함께 랭킹. 인스타 릴스·페이스북 포스트의 중요성 증가.</li>
+      <li>🤖 <strong>에이전트형 광고 자동화</strong> — AI가 인사이트 기반으로 캠페인을 알아서 운영하는 방향.</li>
+    </ul>
+
+    <div class="callout tip">
+      🔮 <strong>마케터를 위한 미래 신호</strong><br>
+      타겟팅·입찰·세팅은 AI가 가져갔습니다. 남은 마케터의 핵심 역량:<br>
+      ① <strong>소재 양산 능력</strong> — 주 단위로 새 소재를 만들어내는 시스템<br>
+      ② <strong>전략·기획·디렉팅 능력</strong> — AI에게 무엇을 만들어줄지 설계하는 사람
     </div>
   </section>
 

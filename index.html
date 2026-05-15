@@ -134,21 +134,20 @@
   </header>
 
   <nav class="toc">
-    <strong>📑 빠른 이동</strong>
+    <strong>목차</strong>
     <a href="#s1">① 30초 요약</a>
     <a href="#s2">② GEM이 뭐예요?</a>
-    <a href="#s2b">📅 적용 타임라인</a>
-    <a href="#s3">③ 광고주에게 뭐가 달라졌나</a>
-    <a href="#s4">④ 메타 광고 시스템 그림</a>
-    <a href="#s5">⑤ 마케터 역할 변화</a>
-    <a href="#s5b">🤔 왜 그래야 하나</a>
-    <a href="#s6">⑥ 콘텐츠(소재)</a>
-    <a href="#s7">⑦ 광고 세팅</a>
-    <a href="#s8">⑧ 광고 운영</a>
-    <a href="#s9">⑨ 타게팅 설정</a>
-    <a href="#s10">⑩ 이전 vs 지금</a>
-    <a href="#s11">⑪ 우선순위 체크</a>
-    <a href="#s12">⑫ 미래 방향</a>
+    <a href="#s4">③ 3단계 AI 시스템</a>
+    <a href="#s2b">④ 적용 타임라인</a>
+    <a href="#s3">⑤ 광고주에게 달라진 것</a>
+    <a href="#s5">⑥ 마케터 역할 변화</a>
+    <a href="#s5b">⑦ 왜 그래야 하나?</a>
+    <a href="#s6">⑧ 콘텐츠 실행 가이드</a>
+    <a href="#s7">⑨ 광고 세팅 가이드</a>
+    <a href="#s8">⑩ 광고 운영 가이드</a>
+    <a href="#s9">⑪ 타게팅 가이드</a>
+    <a href="#s11">⑫ 우선순위 체크</a>
+    <a href="#s12">⑬ 미래 방향</a>
   </nav>
 
   <div class="tldr" id="s1">
@@ -236,7 +235,89 @@
     </div>
   </section>
 
-  <section id="s2b">
+  
+<section id="s4">
+    <h2><span class="num">3</span> 메타 광고 시스템 전체 그림</h2>
+    <p>
+      많은 사람이 "GEM = 새 알고리즘"이라고 생각하지만, 실제로는 <strong>3개의 AI가 순서대로 작동하는 3단계 시스템</strong>입니다.
+      내 광고가 사용자에게 도달하기까지 이 3단계를 모두 통과합니다.
+    </p>
+
+    <table>
+      <thead>
+        <tr><th>단계</th><th>이름</th><th>하는 일</th><th>마케터 관점</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1단계</strong></td>
+          <td><strong>Andromeda</strong><br><span class="en">안드로메다 · 후보 선별</span></td>
+          <td>수백만 개 광고 중 사용자 한 명당 약 <strong>1,000개 후보</strong>를 골라냄. 이때 광고의 이미지·영상·카피·음성을 직접 읽어서 매칭.</td>
+          <td>이 단계를 통과해야 경쟁에 올라갈 수 있음. 크리에이티브가 Andromeda에 "읽히지 않으면" 노출 자체가 안 됨.</td>
+        </tr>
+        <tr>
+          <td><strong>2단계</strong></td>
+          <td><strong>GEM</strong><br><span class="en">젬 · 정밀 평가</span></td>
+          <td>1,000개 후보를 정밀하게 점수화. 사용자가 구매 여정의 어느 단계에 있는지, 전환 가능성이 얼마나 되는지 예측.</td>
+          <td>GEM 학습의 질이 곧 광고 효율. 신호 데이터(CAPI·전환 이벤트)와 크리에이티브 다양성이 GEM의 연료.</td>
+        </tr>
+        <tr>
+          <td><strong>3단계</strong></td>
+          <td><strong>Lattice</strong><br><span class="en">래티스 · 노출 결정</span></td>
+          <td>피드·스토리·릴스 등 Meta의 모든 면(surface)을 하나의 모델로 통합 랭킹. 어디에 어떤 형식으로 보여줄지 결정.</td>
+          <td>플레이스먼트 자동화(자동 노출 위치)가 권장되는 이유. Lattice가 각 자리별로 알아서 최적화함.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Andromeda에 "읽히려면" 어떻게 해야 하나?</h3>
+    <p>1단계 Andromeda를 통과하지 못하면 GEM·Lattice 단계 자체에 올라가지 못합니다. 수집된 자료에서 확인된 조건은 두 가지입니다.</p>
+
+    <table>
+      <thead><tr><th>조건</th><th>내용</th><th>출처</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>유사 소재는 Entity ID로 묶임</strong></td>
+          <td>
+            Andromeda는 픽셀 단위 분석 + 자연어 처리(NLP)로 광고 간 유사성을 감지합니다.
+            비슷한 소재는 <strong>Entity ID</strong>로 묶여서 개별 노출 기회를 못 받습니다.
+            색깔·카피 한 줄 정도의 변형은 "다른 소재"로 인식되지 않습니다.
+          </td>
+          <td style="color: var(--muted); font-size: 13px;">Flâneur Archives</td>
+        </tr>
+        <tr>
+          <td><strong>카피·비주얼을 의미론적으로 읽는다</strong></td>
+          <td>
+            Andromeda는 광고의 이미지·영상·카피를 읽고 "이 광고가 어떤 맥락인지" 파악합니다.
+            단순 키워드 매칭이 아니라 <strong>의미(Semantic) 단위</strong>로 이해합니다.
+            소재 안의 언어·상황이 구체적일수록 Andromeda가 더 명확하게 읽습니다.
+          </td>
+          <td style="color: var(--muted); font-size: 13px;">Flâneur Archives,<br>Silverback Strategies</td>
+        </tr>
+        <tr>
+          <td><strong>소재 자체가 타겟팅 신호</strong></td>
+          <td>
+            Andromeda는 광고 안의 언어·상황·인물을 읽고 적합한 사람을 찾아냅니다.
+            타게팅 옵션에서 "30대 여성"을 설정하는 게 아니라, 소재 안에 그 사람들의 맥락을 담으면 Andromeda가 알아서 찾아갑니다.
+            마케터가 미처 생각 못 한 유사 그룹까지 확장해서 찾아주기도 합니다.
+          </td>
+          <td style="color: var(--muted); font-size: 13px;">Flâneur Archives,<br>Silverback Strategies</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      ⚠️ 랜딩 페이지 일치, 자막 필수, 화질 기준 등은 일반적으로 알려진 내용이지만 이 문서에서 수집한 자료에 명시된 내용은 아닙니다.
+    </div>
+
+    <div class="callout tip">
+      🎯 <strong>핵심 깨달음</strong><br>
+      이 3단계 모두 <strong>AI가 자동으로</strong> 결정합니다. 광고주가 통제할 수 있는 건 단 하나:<br>
+      → <strong>"AI에게 어떤 재료(크리에이티브)와 신호(전환 데이터)를 공급하느냐"</strong>
+    </div>
+  </section>
+
+  
+<section id="s2b">
     <h2><span class="num">📅</span> 언제부터 적용됐나 — 메타 광고 AI 진화 타임라인</h2>
     <p>
       많은 마케터들이 "2024년 말부터 광고가 이상해졌다"고 느끼는데, 사실 메타는 <strong>3단계에 걸쳐 광고 시스템을 통째로 교체</strong>해왔습니다.
@@ -325,8 +406,9 @@
     </div>
   </section>
 
-  <section id="s3">
-    <h2><span class="num">3</span> 광고주에게 뭐가 달라졌나</h2>
+  
+<section id="s3">
+    <h2><span class="num">5</span> 광고주에게 뭐가 달라졌나</h2>
     <div class="stat-grid">
       <div class="stat">
         <div class="num">+5%</div>
@@ -362,88 +444,9 @@
     </div>
   </section>
 
-  <section id="s4">
-    <h2><span class="num">4</span> 메타 광고 시스템 전체 그림</h2>
-    <p>
-      많은 사람이 "GEM = 새 알고리즘"이라고 생각하지만, 실제로는 <strong>3개의 AI가 순서대로 작동하는 3단계 시스템</strong>입니다.
-      내 광고가 사용자에게 도달하기까지 이 3단계를 모두 통과합니다.
-    </p>
-
-    <table>
-      <thead>
-        <tr><th>단계</th><th>이름</th><th>하는 일</th><th>마케터 관점</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>1단계</strong></td>
-          <td><strong>Andromeda</strong><br><span class="en">안드로메다 · 후보 선별</span></td>
-          <td>수백만 개 광고 중 사용자 한 명당 약 <strong>1,000개 후보</strong>를 골라냄. 이때 광고의 이미지·영상·카피·음성을 직접 읽어서 매칭.</td>
-          <td>이 단계를 통과해야 경쟁에 올라갈 수 있음. 크리에이티브가 Andromeda에 "읽히지 않으면" 노출 자체가 안 됨.</td>
-        </tr>
-        <tr>
-          <td><strong>2단계</strong></td>
-          <td><strong>GEM</strong><br><span class="en">젬 · 정밀 평가</span></td>
-          <td>1,000개 후보를 정밀하게 점수화. 사용자가 구매 여정의 어느 단계에 있는지, 전환 가능성이 얼마나 되는지 예측.</td>
-          <td>GEM 학습의 질이 곧 광고 효율. 신호 데이터(CAPI·전환 이벤트)와 크리에이티브 다양성이 GEM의 연료.</td>
-        </tr>
-        <tr>
-          <td><strong>3단계</strong></td>
-          <td><strong>Lattice</strong><br><span class="en">래티스 · 노출 결정</span></td>
-          <td>피드·스토리·릴스 등 Meta의 모든 면(surface)을 하나의 모델로 통합 랭킹. 어디에 어떤 형식으로 보여줄지 결정.</td>
-          <td>플레이스먼트 자동화(자동 노출 위치)가 권장되는 이유. Lattice가 각 자리별로 알아서 최적화함.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>Andromeda에 "읽히려면" 어떻게 해야 하나?</h3>
-    <p>1단계 Andromeda를 통과하지 못하면 GEM·Lattice 단계 자체에 올라가지 못합니다. 수집된 자료에서 확인된 조건은 두 가지입니다.</p>
-
-    <table>
-      <thead><tr><th>조건</th><th>내용</th><th>출처</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>유사 소재는 Entity ID로 묶임</strong></td>
-          <td>
-            Andromeda는 픽셀 단위 분석 + 자연어 처리(NLP)로 광고 간 유사성을 감지합니다.
-            비슷한 소재는 <strong>Entity ID</strong>로 묶여서 개별 노출 기회를 못 받습니다.
-            색깔·카피 한 줄 정도의 변형은 "다른 소재"로 인식되지 않습니다.
-          </td>
-          <td style="color: var(--muted); font-size: 13px;">Flâneur Archives</td>
-        </tr>
-        <tr>
-          <td><strong>카피·비주얼을 의미론적으로 읽는다</strong></td>
-          <td>
-            Andromeda는 광고의 이미지·영상·카피를 읽고 "이 광고가 어떤 맥락인지" 파악합니다.
-            단순 키워드 매칭이 아니라 <strong>의미(Semantic) 단위</strong>로 이해합니다.
-            소재 안의 언어·상황이 구체적일수록 Andromeda가 더 명확하게 읽습니다.
-          </td>
-          <td style="color: var(--muted); font-size: 13px;">Flâneur Archives,<br>Silverback Strategies</td>
-        </tr>
-        <tr>
-          <td><strong>소재 자체가 타겟팅 신호</strong></td>
-          <td>
-            Andromeda는 광고 안의 언어·상황·인물을 읽고 적합한 사람을 찾아냅니다.
-            타게팅 옵션에서 "30대 여성"을 설정하는 게 아니라, 소재 안에 그 사람들의 맥락을 담으면 Andromeda가 알아서 찾아갑니다.
-            마케터가 미처 생각 못 한 유사 그룹까지 확장해서 찾아주기도 합니다.
-          </td>
-          <td style="color: var(--muted); font-size: 13px;">Flâneur Archives,<br>Silverback Strategies</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="callout warn">
-      ⚠️ 랜딩 페이지 일치, 자막 필수, 화질 기준 등은 일반적으로 알려진 내용이지만 이 문서에서 수집한 자료에 명시된 내용은 아닙니다.
-    </div>
-
-    <div class="callout tip">
-      🎯 <strong>핵심 깨달음</strong><br>
-      이 3단계 모두 <strong>AI가 자동으로</strong> 결정합니다. 광고주가 통제할 수 있는 건 단 하나:<br>
-      → <strong>"AI에게 어떤 재료(크리에이티브)와 신호(전환 데이터)를 공급하느냐"</strong>
-    </div>
-  </section>
-
-  <section id="s5">
-    <h2><span class="num">5</span> 마케터 역할이 어떻게 바뀌었나</h2>
+  
+<section id="s5">
+    <h2><span class="num">6</span> 마케터 역할이 어떻게 바뀌었나</h2>
     <table>
       <thead>
         <tr><th></th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
@@ -460,7 +463,8 @@
     </p>
   </section>
 
-  <section id="s5b">
+  
+<section id="s5b">
     <h2><span class="num">🤔</span> 왜 그래야 하나? — 핵심 질문 6가지</h2>
     <p>
       앞에서 "이렇게 바뀌었다"고 했지만, <strong>"왜 그런지"</strong>를 모르면 결국 응용을 못 합니다.
@@ -680,13 +684,57 @@
     </div>
   </section>
 
-  <section id="s6">
+  
+<section id="s6">
     <div class="area-card" style="margin: 0;">
       <h3><span class="emoji">🎨</span> ① 콘텐츠(소재) — 가장 중요해진 영역</h3>
       <p>
         GEM 시대에 <strong>가장 큰 성과 레버는 크리에이티브</strong>입니다. 메타가 발표한 자료에서도, 모든 업계 전문가의 결론도 같습니다.
         타게팅이 AI에게 넘어간 만큼, 크리에이티브가 <strong>유일한 통제 가능 변수</strong>가 됐습니다.
       </p>
+
+    <div style="background: rgba(79,140,255,0.06); border: 1px solid rgba(79,140,255,0.2); border-radius: 12px; padding: 20px 22px; margin-bottom: 24px;">
+      <p style="color: var(--accent); font-size: 13px; font-weight: 700; margin: 0 0 10px; letter-spacing: 0.5px;">🔄 이전 vs 지금 — 한눈에 비교</p>
+<h3>🎨 ① 콘텐츠(소재)</h3>
+    <table>
+      <thead>
+        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>크리에이티브 수</strong></td>
+          <td>광고세트당 2~5개로도 충분</td>
+          <td>광고세트당 <strong>10~15개 이상</strong>, 상위 광고주는 20~50개</td>
+        </tr>
+        <tr>
+          <td><strong>테스트 방식</strong></td>
+          <td>같은 영상에 카피·CTA 색 살짝 바꿔서 A/B</td>
+          <td>훅·출연진·메시지 각도가 <strong>본질적으로 다른</strong> 소재 비교</td>
+        </tr>
+        <tr>
+          <td><strong>주된 포맷</strong></td>
+          <td>1:1 정사각형 이미지·영상</td>
+          <td><strong>9:16 세로 영상이 40%</strong> 이상 (릴스·스토리 중심)</td>
+        </tr>
+        <tr>
+          <td><strong>크리에이티브 수명</strong></td>
+          <td>잘 되는 광고는 몇 달씩 유지</td>
+          <td><strong>빈도 지표 기반 교체</strong> (업계 평균 약 10일 전후)</td>
+        </tr>
+        <tr>
+          <td><strong>핵심 KPI</strong></td>
+          <td>CTR, CPC</td>
+          <td><strong>Hook Rate(3초), Hold Rate(15초), Thumbstop</strong></td>
+        </tr>
+        <tr>
+          <td><strong>제작 우선순위</strong></td>
+          <td>완성도 높은 1편을 정성껏</td>
+          <td>다양한 페르소나·각도의 다수 영상을 빠르게</td>
+        </tr>
+      </tbody>
+    </table>
+
+        </div>
 
       <h4><span style="display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:12px;font-weight:700;min-width:24px;height:24px;border-radius:6px;margin-right:8px;flex-shrink:0;">01</span>핵심 원칙 1: 소재 수량 — "5~15개 최적" 법칙</h4>
       <div class="callout tip">
@@ -851,13 +899,57 @@
     </div>
   </section>
 
-  <section id="s7">
+  
+<section id="s7">
     <div class="area-card" style="margin: 0;">
       <h3><span class="emoji">⚙️</span> ② 광고 세팅 — 단순할수록 잘 돈다</h3>
       <p>
         예전에는 캠페인을 잘게 쪼개고 세팅을 정교하게 짜는 게 잘 하는 거였습니다.
         <strong>지금은 정반대</strong>입니다. 캠페인이 단순하고 통합되어 있을수록 AI가 학습할 데이터가 많아져서 성과가 좋아집니다.
       </p>
+
+    <div style="background: rgba(79,140,255,0.06); border: 1px solid rgba(79,140,255,0.2); border-radius: 12px; padding: 20px 22px; margin-bottom: 24px;">
+      <p style="color: var(--accent); font-size: 13px; font-weight: 700; margin: 0 0 10px; letter-spacing: 0.5px;">🔄 이전 vs 지금 — 한눈에 비교</p>
+<h3>⚙️ ② 광고 세팅</h3>
+    <table>
+      <thead>
+        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>캠페인 구조</strong></td>
+          <td>제품·오디언스·메시지별로 5~20개로 잘게 분리</td>
+          <td><strong>1~2개로 통합</strong> (싱글 버킷), Advantage+ 우선</td>
+        </tr>
+        <tr>
+          <td><strong>광고세트 분리</strong></td>
+          <td>관심사·연령·성별별로 광고세트 분할</td>
+          <td>대부분 <strong>1개 광고세트로 통합</strong>, 광고 레벨에서 변형 테스트</td>
+        </tr>
+        <tr>
+          <td><strong>예산 운영</strong></td>
+          <td>ABO (광고세트별 예산 고정), 일별 미세조정</td>
+          <td><strong>CBO (캠페인 예산 최적화)</strong>, AI가 자동 분배</td>
+        </tr>
+        <tr>
+          <td><strong>플레이스먼트</strong></td>
+          <td>피드·스토리·릴스 각각 별도 캠페인</td>
+          <td><strong>자동 노출 위치</strong>, Lattice가 통합 랭킹</td>
+        </tr>
+        <tr>
+          <td><strong>입찰 전략</strong></td>
+          <td>수동 입찰, 목표 CPA 정교 설정</td>
+          <td><strong>"최저 비용" 자동 입찰</strong>이 기본</td>
+        </tr>
+        <tr>
+          <td><strong>최적화 목표</strong></td>
+          <td>전환 부족하면 "링크 클릭" 등 중간 단계</td>
+          <td>가능한 한 <strong>구매·리드 등 가장 하단</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+        </div>
 
       <h4><span style="display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:12px;font-weight:700;min-width:24px;height:24px;border-radius:6px;margin-right:8px;flex-shrink:0;">01</span>캠페인 구조 — "싱글 버킷" 전략</h4>
       <ul>
@@ -1009,13 +1101,62 @@
     </div>
   </section>
 
-  <section id="s8">
+  
+<section id="s8">
     <div class="area-card" style="margin: 0;">
       <h3><span class="emoji">🏃</span> ③ 광고 운영 — 인내심이 곧 성과</h3>
       <p>
         GEM은 학습하는 데 시간이 필요합니다. 예전처럼 매일 캠페인을 켜고 끄고 수정하면 <strong>학습이 매번 리셋</strong>됩니다.
         2026년 메타 광고 운영의 핵심은 "참는 힘"입니다.
       </p>
+
+    <div style="background: rgba(79,140,255,0.06); border: 1px solid rgba(79,140,255,0.2); border-radius: 12px; padding: 20px 22px; margin-bottom: 24px;">
+      <p style="color: var(--accent); font-size: 13px; font-weight: 700; margin: 0 0 10px; letter-spacing: 0.5px;">🔄 이전 vs 지금 — 한눈에 비교</p>
+<h3>🏃 ③ 광고 운영</h3>
+    <table>
+      <thead>
+        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>학습 대기 기간</strong></td>
+          <td>3~4일이면 평가 가능</td>
+          <td><strong>7일 또는 50 전환</strong>까지 손대지 말기</td>
+        </tr>
+        <tr>
+          <td><strong>일별 운영 방식</strong></td>
+          <td>매일 ROAS 보고 켜기·끄기, 예산 미세조정</td>
+          <td><strong>주 단위 검토</strong>, 일일 변동은 무시</td>
+        </tr>
+        <tr>
+          <td><strong>성과 판단 기준</strong></td>
+          <td>당일 ROAS, 어제와 비교</td>
+          <td><strong>3~7일 롤링 평균</strong>, 주간 추이</td>
+        </tr>
+        <tr>
+          <td><strong>측정 지표</strong></td>
+          <td>플랫폼 ROAS만 보고 판단</td>
+          <td><strong>MER + 플랫폼 ROAS + GA4 + CRM</strong> 삼각 측정</td>
+        </tr>
+        <tr>
+          <td><strong>전환 추적</strong></td>
+          <td>메타 픽셀로 충분</td>
+          <td><strong>CAPI 필수</strong>, EMQ 9.0 이상 유지</td>
+        </tr>
+        <tr>
+          <td><strong>이벤트 종류</strong></td>
+          <td>구매(Purchase)만 보냄</td>
+          <td>장바구니·결제 시작 등 <strong>마이크로 전환도 함께</strong></td>
+        </tr>
+        <tr>
+          <td><strong>변경 빈도</strong></td>
+          <td>일별·주별 수시 수정</td>
+          <td><strong>최소화</strong>, 신규 소재 추가 위주의 변경만</td>
+        </tr>
+      </tbody>
+    </table>
+
+        </div>
 
       <h4><span style="display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-size:12px;font-weight:700;min-width:24px;height:24px;border-radius:6px;margin-right:8px;flex-shrink:0;">01</span>학습 기간 — 7일 또는 50 전환까지 손대지 말기</h4>
       <ul>
@@ -1090,7 +1231,8 @@
     </div>
   </section>
 
-  <section id="s9">
+  
+<section id="s9">
     <div class="area-card" style="margin: 0;">
       <h3><span class="emoji">🎯</span> ④ 타게팅 설정 — 가장 큰 패러다임 변화</h3>
 
@@ -1101,6 +1243,66 @@
         <strong>지금:</strong> 우리 소재에 반응한 사람들의 <strong>행동 패턴</strong>을 학습해서 비슷하게 행동하는 사람을 찾음<br>
         → 인구통계가 달라도 구매 패턴이 유사하면 40대 남성도, 20대도 찾아냄<br><br>
         그래서 타게팅 옵션으로 범위를 좁히면, AI가 그 박스 밖에 있는 더 좋은 고객을 못 찾게 막는 셈이 됩니다.
+      </div>
+
+    <div style="background: rgba(79,140,255,0.06); border: 1px solid rgba(79,140,255,0.2); border-radius: 12px; padding: 20px 22px; margin-bottom: 24px;">
+      <p style="color: var(--accent); font-size: 13px; font-weight: 700; margin: 0 0 10px; letter-spacing: 0.5px;">🔄 이전 vs 지금 — 한눈에 비교</p>
+<h3>🎯 ④ 타게팅 설정</h3>
+    <table>
+      <thead>
+        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>기본 철학</strong></td>
+          <td>"좁고 정교하게 좁힐수록 정확"</td>
+          <td><strong>"넓을수록 AI가 잘 찾는다"</strong></td>
+        </tr>
+        <tr>
+          <td><strong>관심사 타게팅</strong></td>
+          <td>10~20개 스택해서 정교화</td>
+          <td><strong>대부분 빼기</strong> — Andromeda가 크리에이티브로 매칭</td>
+        </tr>
+        <tr>
+          <td><strong>유사 대상</strong></td>
+          <td>1%, 2%, 3% 잘게 나눠 테스트</td>
+          <td><strong>거의 불필요</strong> — GEM이 자동으로 비슷한 사람 찾음</td>
+        </tr>
+        <tr>
+          <td><strong>인구통계</strong></td>
+          <td>연령·성별 세분화 (예: 25~34세 여)</td>
+          <td><strong>광범위 설정</strong> (예: 25~55세 전체)</td>
+        </tr>
+        <tr>
+          <td><strong>제외 타게팅</strong></td>
+          <td>이탈자·경쟁사 관심자 등 적극 제외</td>
+          <td><strong>최소화</strong> (구매 완료자 정도만)</td>
+        </tr>
+        <tr>
+          <td><strong>"누구에게 보여줄지" 결정</strong></td>
+          <td>마케터가 오디언스 설정으로 결정</td>
+          <td><strong>크리에이티브의 내용</strong>이 결정 (카피·이미지가 신호)</td>
+        </tr>
+        <tr>
+          <td><strong>페르소나 활용</strong></td>
+          <td>페르소나별 광고세트 분리</td>
+          <td><strong>광범위 + 페르소나별 크리에이티브</strong>로 통합</td>
+        </tr>
+        <tr>
+          <td><strong>신규 vs 리타게팅</strong></td>
+          <td>완전히 분리된 캠페인</td>
+          <td><strong>Advantage+ 안에 통합</strong>, 리타게팅 비중 20~30% 이내</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>🔑 가장 큰 패러다임 변화 한 줄로</h3>
+    <div class="callout tip">
+      <strong>예전</strong>: 마케터가 "누구에게 어떻게 보여줄지" 결정 → AI는 따라옴<br>
+      <strong>지금</strong>: 마케터가 "어떤 재료와 신호를 줄지"만 결정 → <strong>AI가 누구에게 어떻게 보여줄지 결정</strong><br><br>
+      그래서 통제할 수 있는 영역이 줄어든 게 아니라, <strong>"통제할 영역이 옮겨갔다"</strong>고 보는 것이 맞습니다.<br>
+      옮겨간 곳은 결국 <strong>크리에이티브 양산 능력과 데이터 인프라</strong>입니다.
+    </div>
       </div>
 
       <p>
@@ -1165,195 +1367,9 @@
     </div>
   </section>
 
-  <section id="s10">
-    <h2><span class="num">10</span> 🔄 이전엔 이랬는데, 지금은 이렇게 바뀌었다</h2>
-    <p>
-      각 영역에서 운영 방식이 어떻게 뒤집혔는지 한눈에 비교했습니다.
-      <strong>"왼쪽이 익숙하다면, 지금부터 오른쪽으로 바꿔야 합니다."</strong>
-    </p>
-
-    <h3>🎨 ① 콘텐츠(소재)</h3>
-    <table>
-      <thead>
-        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>크리에이티브 수</strong></td>
-          <td>광고세트당 2~5개로도 충분</td>
-          <td>광고세트당 <strong>10~15개 이상</strong>, 상위 광고주는 20~50개</td>
-        </tr>
-        <tr>
-          <td><strong>테스트 방식</strong></td>
-          <td>같은 영상에 카피·CTA 색 살짝 바꿔서 A/B</td>
-          <td>훅·출연진·메시지 각도가 <strong>본질적으로 다른</strong> 소재 비교</td>
-        </tr>
-        <tr>
-          <td><strong>주된 포맷</strong></td>
-          <td>1:1 정사각형 이미지·영상</td>
-          <td><strong>9:16 세로 영상이 40%</strong> 이상 (릴스·스토리 중심)</td>
-        </tr>
-        <tr>
-          <td><strong>크리에이티브 수명</strong></td>
-          <td>잘 되는 광고는 몇 달씩 유지</td>
-          <td><strong>빈도 지표 기반 교체</strong> (업계 평균 약 10일 전후)</td>
-        </tr>
-        <tr>
-          <td><strong>핵심 KPI</strong></td>
-          <td>CTR, CPC</td>
-          <td><strong>Hook Rate(3초), Hold Rate(15초), Thumbstop</strong></td>
-        </tr>
-        <tr>
-          <td><strong>제작 우선순위</strong></td>
-          <td>완성도 높은 1편을 정성껏</td>
-          <td>다양한 페르소나·각도의 다수 영상을 빠르게</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>⚙️ ② 광고 세팅</h3>
-    <table>
-      <thead>
-        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>캠페인 구조</strong></td>
-          <td>제품·오디언스·메시지별로 5~20개로 잘게 분리</td>
-          <td><strong>1~2개로 통합</strong> (싱글 버킷), Advantage+ 우선</td>
-        </tr>
-        <tr>
-          <td><strong>광고세트 분리</strong></td>
-          <td>관심사·연령·성별별로 광고세트 분할</td>
-          <td>대부분 <strong>1개 광고세트로 통합</strong>, 광고 레벨에서 변형 테스트</td>
-        </tr>
-        <tr>
-          <td><strong>예산 운영</strong></td>
-          <td>ABO (광고세트별 예산 고정), 일별 미세조정</td>
-          <td><strong>CBO (캠페인 예산 최적화)</strong>, AI가 자동 분배</td>
-        </tr>
-        <tr>
-          <td><strong>플레이스먼트</strong></td>
-          <td>피드·스토리·릴스 각각 별도 캠페인</td>
-          <td><strong>자동 노출 위치</strong>, Lattice가 통합 랭킹</td>
-        </tr>
-        <tr>
-          <td><strong>입찰 전략</strong></td>
-          <td>수동 입찰, 목표 CPA 정교 설정</td>
-          <td><strong>"최저 비용" 자동 입찰</strong>이 기본</td>
-        </tr>
-        <tr>
-          <td><strong>최적화 목표</strong></td>
-          <td>전환 부족하면 "링크 클릭" 등 중간 단계</td>
-          <td>가능한 한 <strong>구매·리드 등 가장 하단</strong></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>🏃 ③ 광고 운영</h3>
-    <table>
-      <thead>
-        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>학습 대기 기간</strong></td>
-          <td>3~4일이면 평가 가능</td>
-          <td><strong>7일 또는 50 전환</strong>까지 손대지 말기</td>
-        </tr>
-        <tr>
-          <td><strong>일별 운영 방식</strong></td>
-          <td>매일 ROAS 보고 켜기·끄기, 예산 미세조정</td>
-          <td><strong>주 단위 검토</strong>, 일일 변동은 무시</td>
-        </tr>
-        <tr>
-          <td><strong>성과 판단 기준</strong></td>
-          <td>당일 ROAS, 어제와 비교</td>
-          <td><strong>3~7일 롤링 평균</strong>, 주간 추이</td>
-        </tr>
-        <tr>
-          <td><strong>측정 지표</strong></td>
-          <td>플랫폼 ROAS만 보고 판단</td>
-          <td><strong>MER + 플랫폼 ROAS + GA4 + CRM</strong> 삼각 측정</td>
-        </tr>
-        <tr>
-          <td><strong>전환 추적</strong></td>
-          <td>메타 픽셀로 충분</td>
-          <td><strong>CAPI 필수</strong>, EMQ 9.0 이상 유지</td>
-        </tr>
-        <tr>
-          <td><strong>이벤트 종류</strong></td>
-          <td>구매(Purchase)만 보냄</td>
-          <td>장바구니·결제 시작 등 <strong>마이크로 전환도 함께</strong></td>
-        </tr>
-        <tr>
-          <td><strong>변경 빈도</strong></td>
-          <td>일별·주별 수시 수정</td>
-          <td><strong>최소화</strong>, 신규 소재 추가 위주의 변경만</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>🎯 ④ 타게팅 설정</h3>
-    <table>
-      <thead>
-        <tr><th>구분</th><th>예전 (~2024년)</th><th>지금 (GEM 시대)</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>기본 철학</strong></td>
-          <td>"좁고 정교하게 좁힐수록 정확"</td>
-          <td><strong>"넓을수록 AI가 잘 찾는다"</strong></td>
-        </tr>
-        <tr>
-          <td><strong>관심사 타게팅</strong></td>
-          <td>10~20개 스택해서 정교화</td>
-          <td><strong>대부분 빼기</strong> — Andromeda가 크리에이티브로 매칭</td>
-        </tr>
-        <tr>
-          <td><strong>유사 대상</strong></td>
-          <td>1%, 2%, 3% 잘게 나눠 테스트</td>
-          <td><strong>거의 불필요</strong> — GEM이 자동으로 비슷한 사람 찾음</td>
-        </tr>
-        <tr>
-          <td><strong>인구통계</strong></td>
-          <td>연령·성별 세분화 (예: 25~34세 여)</td>
-          <td><strong>광범위 설정</strong> (예: 25~55세 전체)</td>
-        </tr>
-        <tr>
-          <td><strong>제외 타게팅</strong></td>
-          <td>이탈자·경쟁사 관심자 등 적극 제외</td>
-          <td><strong>최소화</strong> (구매 완료자 정도만)</td>
-        </tr>
-        <tr>
-          <td><strong>"누구에게 보여줄지" 결정</strong></td>
-          <td>마케터가 오디언스 설정으로 결정</td>
-          <td><strong>크리에이티브의 내용</strong>이 결정 (카피·이미지가 신호)</td>
-        </tr>
-        <tr>
-          <td><strong>페르소나 활용</strong></td>
-          <td>페르소나별 광고세트 분리</td>
-          <td><strong>광범위 + 페르소나별 크리에이티브</strong>로 통합</td>
-        </tr>
-        <tr>
-          <td><strong>신규 vs 리타게팅</strong></td>
-          <td>완전히 분리된 캠페인</td>
-          <td><strong>Advantage+ 안에 통합</strong>, 리타게팅 비중 20~30% 이내</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h3>🔑 가장 큰 패러다임 변화 한 줄로</h3>
-    <div class="callout tip">
-      <strong>예전</strong>: 마케터가 "누구에게 어떻게 보여줄지" 결정 → AI는 따라옴<br>
-      <strong>지금</strong>: 마케터가 "어떤 재료와 신호를 줄지"만 결정 → <strong>AI가 누구에게 어떻게 보여줄지 결정</strong><br><br>
-      그래서 통제할 수 있는 영역이 줄어든 게 아니라, <strong>"통제할 영역이 옮겨갔다"</strong>고 보는 것이 맞습니다.<br>
-      옮겨간 곳은 결국 <strong>크리에이티브 양산 능력과 데이터 인프라</strong>입니다.
-    </div>
-  </section>
-
-  <section id="s11">
-    <h2><span class="num">11</span> 우선순위 체크리스트 — 이 순서대로 하세요</h2>
+  
+<section id="s11">
+    <h2><span class="num">9</span> 우선순위 체크리스트 — 이 순서대로 하세요</h2>
 
     <h3>🚨 P1 (먼저 해결 — 이게 안 되면 다른 거 다 무의미)</h3>
     <table>
@@ -1399,8 +1415,9 @@
     </div>
   </section>
 
-  <section id="s12">
-    <h2><span class="num">12</span> 앞으로의 방향 — 메타가 말한 미래</h2>
+  
+<section id="s12">
+    <h2><span class="num">10</span> 앞으로의 방향 — 메타가 말한 미래</h2>
     <ul>
       <li>🎥 <strong>멀티모달 학습 확대</strong> — 텍스트·이미지·음성·영상을 한꺼번에 이해. 크리에이티브의 "느낌"까지 AI가 평가.</li>
       <li>🌐 <strong>광고와 오가닉 통합</strong> — 광고와 일반 콘텐츠를 같은 AI가 함께 랭킹. 콘텐츠 마케팅의 중요성이 더 커짐.</li>
@@ -1417,8 +1434,9 @@
     </div>
   </section>
 
-  <section>
-    <h2><span class="num">13</span> 한 번에 정리</h2>
+  
+<section>
+    <h2><span class="num">11</span> 한 번에 정리</h2>
     <ul>
       <li>🧠 메타가 광고 AI(GEM + Andromeda + Lattice)로 시스템을 통째로 재설계했습니다.</li>
       <li>📈 결과: 인스타 +5%, 페이스북 +3% 전환 상승. Advantage+ 크리에이티브 사용 시 ROAS +22%.</li>
@@ -1430,6 +1448,7 @@
       <li>🔮 미래: 크리에이티브 양산 능력 + 전략·기획 역량이 마케터의 핵심 경쟁력.</li>
     </ul>
   </section>
+
 
   <div style="background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-top: 20px;">
     <h2 style="font-size: 18px; margin: 0 0 6px; color: #cfe0ff;">📚 참조 출처</h2>
