@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta GEM — 10분 요약 (회의용)</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --panel: #11182b;
+    --panel-2: #162038;
+    --border: #1f2a44;
+    --text: #e6ecf5;
+    --muted: #9aa7bf;
+    --accent: #4f8cff;
+    --accent-2: #7c5cff;
+    --good: #22c55e;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+    --pill-bg: #1a2440;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif; line-height: 1.75; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  header.hero {
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, #14224a 0%, #1a1340 100%);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 24px;
+  }
+  .tag { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; letter-spacing: 0.5px; margin-bottom: 12px; }
+  h1 { font-size: 28px; line-height: 1.3; margin: 0 0 8px; }
+  .subtitle { color: var(--muted); font-size: 14px; }
+
+  section { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px 32px; margin-bottom: 16px; scroll-margin-top: 20px; }
+  h2 { font-size: 20px; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; background: var(--accent); color: #fff; border-radius: 8px; font-size: 13px; font-weight: 700; padding: 0 8px; flex-shrink: 0; }
+  h3 { font-size: 16px; margin: 20px 0 8px; color: #cfe0ff; }
+  p { margin: 8px 0 12px; color: #d6dff0; font-size: 15px; }
+  ul { padding-left: 20px; margin: 6px 0 12px; }
+  li { margin: 7px 0; font-size: 15px; color: #d6dff0; }
+
+  .tldr { background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(124,92,255,0.08)); border-left: 4px solid var(--accent); padding: 18px 22px; border-radius: 12px; margin-bottom: 16px; }
+  .tldr strong { color: #fff; }
+
+  .callout { background: rgba(34,197,94,0.08); border-left: 4px solid var(--good); padding: 14px 18px; border-radius: 10px; margin: 14px 0; font-size: 14px; }
+  .callout.warn { background: rgba(245,158,11,0.08); border-left-color: var(--warn); }
+  .callout.tip { background: rgba(124,92,255,0.08); border-left-color: var(--accent-2); }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--panel-2); color: #cfe0ff; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
+  .box { padding: 14px 16px; border-radius: 10px; font-size: 14px; line-height: 1.65; }
+  .box.before { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.25); }
+  .box.after { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.25); }
+  .box .label { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .box.before .label { color: var(--bad); }
+  .box.after .label { color: var(--good); }
+
+  .action-row { display: flex; align-items: flex-start; gap: 14px; padding: 14px 16px; border-radius: 10px; background: var(--panel-2); border: 1px solid var(--border); margin: 8px 0; }
+  .action-num { display: flex; align-items: center; justify-content: center; min-width: 32px; height: 32px; background: var(--accent); color: #fff; border-radius: 8px; font-size: 14px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+  .action-body { flex: 1; }
+  .action-body strong { color: #fff; font-size: 15px; display: block; margin-bottom: 4px; }
+  .action-body span { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+  .big-arrow { text-align: center; font-size: 22px; color: var(--muted); margin: 4px 0; }
+
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0; }
+  .stat { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; }
+  .stat .val { font-size: 26px; font-weight: 700; color: var(--accent); }
+  .stat .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+  .chip { display: inline-block; background: var(--pill-bg); color: var(--accent); font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; margin: 2px; }
+
+  nav.toc { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; margin-bottom: 20px; font-size: 14px; }
+  nav.toc strong { color: #cfe0ff; display: block; margin-bottom: 6px; }
+  nav.toc a { color: var(--muted); text-decoration: none; margin-right: 14px; line-height: 2.2; }
+  nav.toc a:hover { color: var(--accent); }
+
+  .notice { background: rgba(79,140,255,0.06); border: 1px solid rgba(79,140,255,0.2); border-radius: 10px; padding: 10px 16px; font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .notice a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="tag">회의용 · 10분 요약</div>
+    <h1>메타 광고가 바뀌었다<br>우리는 무엇을 바꿔야 하나</h1>
+    <p class="subtitle">Meta GEM(Generative Ads Model) 핵심 정리 · 2026년 5월</p>
+  </header>
+
+  <div class="notice">
+    📄 더 자세한 내용은 전체 문서를 참고하세요 → <a href="meta_gem_정리.html" target="_blank">meta_gem_정리.html</a>
+  </div>
+
+  <nav class="toc">
+    <strong>목차</strong>
+    <a href="#s1">① 한 줄 요약</a>
+    <a href="#s2">② 무엇이 바뀌었나</a>
+    <a href="#s3">③ 가장 큰 변화 — 타겟팅</a>
+    <a href="#s4">④ 우리가 해야 할 3가지</a>
+    <a href="#s5">⑤ 바리바디 현황</a>
+    <a href="#s6">⑥ 다음 스텝</a>
+  </nav>
+
+  <!-- S1 -->
+  <section id="s1">
+    <h2><span class="num">1</span> 한 줄 요약</h2>
+    <div class="tldr">
+      <strong>메타 광고는 이제 "우리가 타겟을 고르는 시스템"이 아닙니다.<br>
+      AI가 타겟을 찾아냅니다. 마케터는 AI에게 좋은 재료를 주는 역할로 바뀌었습니다.</strong>
+    </div>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="val">+5%</div>
+        <div class="lbl">인스타그램<br>광고 전환율 증가</div>
+      </div>
+      <div class="stat">
+        <div class="val">+3%</div>
+        <div class="lbl">페이스북 피드<br>광고 전환율 증가</div>
+      </div>
+      <div class="stat">
+        <div class="val">4×</div>
+        <div class="lbl">기존 모델 대비<br>학습 효율</div>
+      </div>
+    </div>
+    <p style="font-size: 13px; color: var(--muted);">출처: Meta Engineering Blog, 2025.11</p>
+  </section>
+
+  <!-- S2 -->
+  <section id="s2">
+    <h2><span class="num">2</span> 무엇이 바뀌었나 — 3단계 AI 시스템</h2>
+    <p>메타는 2024년 말~2025년에 걸쳐 광고 시스템을 통째로 교체했습니다. 지금은 3개의 AI가 순서대로 광고 노출을 결정합니다.</p>
+
+    <table>
+      <thead><tr><th>단계</th><th>이름</th><th>하는 일</th><th>마케터 관점</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>1단계</strong></td>
+          <td><strong>Andromeda</strong><br><span style="color:var(--muted);font-size:12px;">후보 선별</span></td>
+          <td>수백만 광고 중 사용자 1인당 약 1,000개 추림.<br>광고의 이미지·영상·카피를 직접 읽어서 매칭</td>
+          <td>여기서 걸러지면 노출 자체가 안 됨</td>
+        </tr>
+        <tr>
+          <td><strong>2단계</strong></td>
+          <td><strong>GEM</strong><br><span style="color:var(--muted);font-size:12px;">정밀 평가</span></td>
+          <td>1,000개 후보를 정밀 점수화.<br>전환 가능성, 사용자 구매 여정 단계까지 예측</td>
+          <td>신호 데이터(CAPI)와 소재 다양성이 학습의 연료</td>
+        </tr>
+        <tr>
+          <td><strong>3단계</strong></td>
+          <td><strong>Lattice</strong><br><span style="color:var(--muted);font-size:12px;">노출 결정</span></td>
+          <td>피드·스토리·릴스 등 전체 지면을 통합 랭킹.<br>어디에 어떤 포맷으로 보여줄지 결정</td>
+          <td>플레이스먼트 자동화가 권장되는 이유</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- S3 -->
+  <section id="s3">
+    <h2><span class="num">3</span> 가장 큰 변화 — 타겟팅 패러다임</h2>
+
+    <div class="two-col">
+      <div class="box before">
+        <div class="label">❌ 예전 방식</div>
+        소재에 반응한 사람들을<br>
+        <strong style="color:#fff;">인구통계학적으로 분석</strong>해서<br>
+        타겟 박스를 만들고<br>
+        그 안에서만 찾음<br><br>
+        <span style="color:var(--muted);font-size:13px;">"30대 여성, 서울, 피트니스 관심"</span>
+      </div>
+      <div class="box after">
+        <div class="label">✅ 지금 방식</div>
+        소재에 반응한 사람들의<br>
+        <strong style="color:#fff;">행동 패턴을 학습</strong>해서<br>
+        패턴이 유사한 사람을<br>
+        인구통계 무관하게 찾아냄<br><br>
+        <span style="color:var(--muted);font-size:13px;">40대 남성도, 20대도 찾아냄</span>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      💡 <strong>핵심</strong> — 타겟팅 옵션으로 범위를 좁히면 AI가 더 좋은 고객을 못 찾게 막는 셈입니다.<br>
+      <strong>소재 안에 담긴 언어·상황·인물이 곧 타겟팅 신호</strong>가 됩니다.
+    </div>
+  </section>
+
+  <!-- S4 -->
+  <section id="s4">
+    <h2><span class="num">4</span> 우리가 해야 할 3가지</h2>
+
+    <div class="action-row">
+      <div class="action-num">1</div>
+      <div class="action-body">
+        <strong>소재 다양성 확보 — "의미가 다른" 크리에이티브</strong>
+        <span>
+          색깔·카피 한 줄만 바꾸는 건 AI가 같은 소재로 묶습니다(Entity ID). 훅·출연진·메시지 각도가 본질적으로 달라야 합니다.<br>
+          캠페인당 <strong>5~15개</strong>가 최적. 예산을 늘릴 때는 소재도 반드시 같이 늘려야 합니다.<br>
+          권장 루틴: <strong>주 4~6개 신규 소재 투입</strong>
+        </span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">2</div>
+      <div class="action-body">
+        <strong>캠페인 구조 단순화 — 쪼개지 않는다</strong>
+        <span>
+          같은 제품을 타겟 연령·관심사별로 캠페인 분리 → 모든 캠페인이 학습 부족 상태에 빠짐.<br>
+          <strong>제품별로 나누는 건 OK</strong>, 타겟별로 나누는 건 NG.<br>
+          각 캠페인이 <strong>주당 50건 이상의 전환</strong>을 만들 수 있어야 학습이 됩니다.
+        </span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">3</div>
+      <div class="action-body">
+        <strong>신호 품질 관리 — CAPI + 마이크로 전환 ✅ 완료</strong>
+        <span>
+          Safari ITP·인앱 브라우저·광고 차단기로 픽셀만으로는 데이터의 30~50%가 사라집니다.<br>
+          CAPI(서버 전송)로 이를 보완하고, 장바구니 추가·결제 시작 같은 마이크로 전환도 함께 전송해야<br>
+          GEM이 더 빠르게 학습합니다.
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- S5 -->
+  <section id="s5">
+    <h2><span class="num">5</span> 바리바디 현황 (5월 기준)</h2>
+
+    <table>
+      <thead><tr><th>제품</th><th>일 예산</th><th>권장 소재 수</th><th>운영 방향</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>릴렉스틱</strong></td>
+          <td>82만원</td>
+          <td>12~15개</td>
+          <td>볼륨 전략 — 소재 공급이 핵심</td>
+        </tr>
+        <tr>
+          <td><strong>릴렉스틱볼</strong></td>
+          <td>59만원</td>
+          <td>10~12개</td>
+          <td>효율·볼륨 균형</td>
+        </tr>
+        <tr>
+          <td><strong>EMS + 올인원 묶음</strong></td>
+          <td>16만원</td>
+          <td>5~7개</td>
+          <td>효율 유지 — 단독 분리 시 학습 부족</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      ⚠️ 릴렉스틱은 일 예산이 크게 늘어난 만큼 <strong>소재 공급이 따라가지 못하면 ROAS가 더 떨어집니다.</strong><br>
+      예산 증액 전에 소재를 먼저 확보하는 것이 원칙입니다.
+    </div>
+  </section>
+
+  <!-- S6 -->
+  <section id="s6">
+    <h2><span class="num">6</span> 다음 스텝</h2>
+
+    <div class="action-row">
+      <div class="action-num" style="background:var(--good);">✅</div>
+      <div class="action-body">
+        <strong>CAPI + 마이크로 전환 세팅</strong>
+        <span>완료</span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">→</div>
+      <div class="action-body">
+        <strong>소재 생산 루틴 안착 — 주 4~6개 신규</strong>
+        <span>
+          릴렉스틱 위주로 P.D.A 프레임워크(Persona·Desire·Awareness) 기반 소재 기획.<br>
+          같은 제품이라도 "야근하는 직장인" vs "육아 중인 부모" 처럼 상황·욕구·인지 단계를 달리해서 제작.
+        </span>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <div class="action-num">→</div>
+      <div class="action-body">
+        <strong>타겟팅 옵션 정리</strong>
+        <span>
+          관심사·세밀한 유사대상 걷어내고 브로드 타겟팅으로 전환.<br>
+          대신 소재 안에 타겟 맥락을 담아 Andromeda가 읽을 수 있게.
+        </span>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top: 20px;">
+      🎯 <strong>결론</strong> — 버튼 누르고 타겟 조정하는 시대는 끝났습니다.<br>
+      <strong>좋은 소재를 만들고, 깨끗한 신호를 주고, AI가 학습할 시간을 주는 것</strong>이 2026년 메타 광고의 전부입니다.
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
