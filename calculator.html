@@ -272,11 +272,19 @@
       </div>
 
       <div class="final-recommendation">
-        <div class="label">🎯 종합 권장 범위 — 출처들의 교집합</div>
-        <div class="range"><span id="m1-final">0 ~ 0</span><span class="unit"> 개</span></div>
-        <div class="note">하한: Meta 최소 6개 · 상한: 입력 예산이 허용하는 strict 한계</div>
+        <div class="label">📐 정리 — 두 가지 관점</div>
+        <div style="margin-top: 8px;">
+          <div style="font-size: 13px; color: var(--muted); margin-bottom: 2px;">입력 예산이 허용하는 strict 최대</div>
+          <div style="font-size: 22px; font-weight: 800; color: #fff;"><span id="m1-strict-max">0</span><span style="font-size: 14px; color: var(--muted); font-weight: 600; margin-left: 4px;">개 (Flâneur 기준)</span></div>
+        </div>
+        <div style="margin-top: 14px;">
+          <div style="font-size: 13px; color: var(--muted); margin-bottom: 2px;">출처별 권장 범위 (전체)</div>
+          <div style="font-size: 22px; font-weight: 800; color: #fff;"><span id="m1-source-range">0 ~ 0</span><span style="font-size: 14px; color: var(--muted); font-weight: 600; margin-left: 4px;">개</span></div>
+          <div class="note" style="margin-top: 4px;">5(Flâneur 최저) ~ 30+ (Foxwell 적극)</div>
+        </div>
       </div>
 
+      <div id="m1-conflict-check"></div>
       <div id="m1-learning-check"></div>
     </div>
   </section>
@@ -524,25 +532,38 @@
     }
     document.getElementById('m1-r6').innerHTML = tierLabel;
 
-    // 종합 권장 — 하한: Meta 최소 6 / 상한: per-creative strict
-    const finalLow = Math.max(6, Math.min(perCreativeStrict, 6));
-    const finalHigh = Math.min(perCreativeStrict, 50);
-    const showLow = Math.min(finalLow, finalHigh);
-    const showHigh = Math.max(finalLow, finalHigh);
-    document.getElementById('m1-final').textContent = `${showLow} ~ ${showHigh}`;
+    // 출처별 권장 범위 — 모든 출처의 LOW/HIGH 통합
+    // Flâneur 5~15, PPC 8~15, Foxwell 20~30(or 50), Meta 6~50, AdRiseLab tier별
+    const sourceLow = Math.min(5, 6, 8, tierLow); // 모든 출처 LOW 중 최소
+    const sourceHigh = Math.max(15, 30, 50, tierHigh); // 모든 출처 HIGH 중 최대
+    document.getElementById('m1-strict-max').textContent = perCreativeStrict;
+    document.getElementById('m1-source-range').textContent = `${sourceLow} ~ ${sourceHigh}`;
+
+    // 충돌 체크
+    const conflictEl = document.getElementById('m1-conflict-check');
+    if (perCreativeStrict < sourceLow) {
+      // 예산이 너무 적어서 출처 최저 권장(5개)도 못 만듦
+      const neededBudget = sourceLow * cpa * 3;
+      conflictEl.innerHTML = `<div class="callout bad" style="margin-top: 12px;">🚨 <strong>예산이 출처 최저 권장(${sourceLow}개)도 못 만듦</strong> — 일 예산을 ${fmtMan(neededBudget)} 이상으로 올리거나 CPA 목표를 낮춰야 함.</div>`;
+    } else if (perCreativeStrict < 8) {
+      const neededFor8 = 8 * cpa * 3;
+      const neededFor15 = 15 * cpa * 3;
+      conflictEl.innerHTML = `<div class="callout" style="margin-top: 12px;">⚠️ <strong>예산이 strict 기준 ${perCreativeStrict}개까지만 허용</strong> — 다수 출처(PPC, Flâneur)는 8~15개를 권장. 권장 충족하려면 일 예산 ${fmtMan(neededFor8)} (8개) ~ ${fmtMan(neededFor15)} (15개) 필요.</div>`;
+    } else if (perCreativeStrict < 20) {
+      const neededFor20 = 20 * cpa * 3;
+      conflictEl.innerHTML = `<div class="callout tip" style="margin-top: 12px;">💡 <strong>실무 권장 범위(8~15) 충족</strong> — 적극 운영(Foxwell 20~30개)을 원하면 일 예산 ${fmtMan(neededFor20)} 이상.</div>`;
+    } else {
+      conflictEl.innerHTML = `<div class="callout good" style="margin-top: 12px;">✅ <strong>적극 운영 범위(20~30개+) 가능</strong> — Foxwell·AdRiseLab 적극 운영 권장 충족.</div>`;
+    }
 
     // 학습 단계 통과
     const learningMin = (cpa * 50) / 7;
     const learningCheckEl = document.getElementById('m1-learning-check');
     if (budget < learningMin) {
-      learningCheckEl.innerHTML = `<div class="callout bad" style="margin-top: 12px;">🚨 <strong>학습 단계 통과 어려움</strong> — Stackmatix 기준 일 ${fmtMan(learningMin)} 필요. 입력 예산 ${fmtMan(budget)}으로는 주 50전환 미달 가능성 높음.</div>`;
+      learningCheckEl.innerHTML = `<div class="callout bad" style="margin-top: 8px;">🚨 <strong>학습 단계 통과 어려움</strong> — Stackmatix 기준 일 ${fmtMan(learningMin)} 필요. 입력 예산 ${fmtMan(budget)}으로는 주 50전환 미달 가능성.</div>`;
     } else {
       const conversionsPerWeek = (budget * 7) / cpa;
-      learningCheckEl.innerHTML = `<div class="callout good" style="margin-top: 12px;">✅ <strong>학습 단계 통과 가능</strong> — 주 ${Math.floor(conversionsPerWeek)}전환 달성 가능 (50전환 + 7일 모두 필요)</div>`;
-    }
-
-    if (perCreativeStrict < 6) {
-      learningCheckEl.innerHTML += `<div class="callout" style="margin-top: 8px;">⚠️ Per-creative strict 결과(${perCreativeStrict}개)가 Meta 공식 최소(6개)보다 적음 → 예산 부족. 일 예산을 늘리거나 CPA 목표를 낮추거나 캠페인을 통합하세요.</div>`;
+      learningCheckEl.innerHTML = `<div class="callout good" style="margin-top: 8px;">✅ <strong>학습 단계 통과 가능</strong> — 주 ${Math.floor(conversionsPerWeek)}전환 달성 가능 (50전환 + 7일 모두 필요)</div>`;
     }
 
     result.classList.add('active');
