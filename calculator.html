@@ -227,11 +227,16 @@
         <div style="margin-top: 6px;">
           <div style="font-size: 36px; font-weight: 800; color: #fff;"><span id="m1-range">0 ~ 0</span><span style="font-size: 16px; color: var(--muted); font-weight: 600; margin-left: 6px;">개</span></div>
           <div class="note" style="margin-top: 12px; line-height: 1.6;">
-            <div><strong style="color: #cfe0ff;">하한 (보수적)</strong> — 모든 소재가 균등 예산 받음 가정<br>
-              → <span id="m1-low-formula" style="font-family: 'SF Mono', monospace;">0</span> · 출처: <a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank" style="color: var(--accent);">Flâneur Archives</a>
+            기준: <strong>Foxwell Digital — 소재 1개당 20 × CPA의 테스트 예산 필요</strong> (winner 판별 기준)<br>
+            테스트 기간 7~10일로 분산해서 운영 가능한 소재 수 계산<br><br>
+            <div><strong style="color: #cfe0ff;">하한 (7일 테스트, 보수적)</strong><br>
+              → <span id="m1-low-formula" style="font-family: 'SF Mono', monospace;">0</span>
             </div>
-            <div style="margin-top: 10px;"><strong style="color: #cfe0ff;">상한 (적극)</strong> — Andromeda가 winner에 예산 집중 가정<br>
-              → <span id="m1-high-formula">월 광고비 기준 티어 권장</span> · 출처: <a href="https://adriselab.com/blog/meta-ads-budget-optimization-2026" target="_blank" style="color: var(--accent);">AdRiseLab 2026</a>
+            <div style="margin-top: 10px;"><strong style="color: #cfe0ff;">상한 (10일 테스트, 적극)</strong><br>
+              → <span id="m1-high-formula" style="font-family: 'SF Mono', monospace;">0</span>
+            </div>
+            <div style="margin-top: 10px; font-size: 12px; color: var(--muted);">
+              출처: <a href="https://www.foxwelldigital.com/blog/meta-ads-how-much-creative-is-needed-by-volume" target="_blank" style="color: var(--accent);">Foxwell Digital</a> — 20× CPA per 소재 winner 판별 기준
             </div>
           </div>
         </div>
@@ -462,54 +467,34 @@
       return;
     }
 
-    // 1. Flâneur Per-creative strict
-    const perCreativeStrict = Math.floor(budget / (cpa * 3));
-
-    // 6. AdRiseLab tier (월 광고비)
-    const monthlyKrw = budget * 30;
-    const monthlyUsd = monthlyKrw / 1300; // 환율 약 1,300원 가정
-    let tierLabel = '', tierLow = 0, tierHigh = 0;
-    if (monthlyUsd < 3000) {
-      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) — $3K 티어 미달`;
-      tierLow = 5; tierHigh = 10;
-    } else if (monthlyUsd < 10000) {
-      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) → 10~15개`;
-      tierLow = 10; tierHigh = 15;
-    } else if (monthlyUsd < 50000) {
-      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) → 15~20+개`;
-      tierLow = 15; tierHigh = 22;
-    } else {
-      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) → 20~30+개`;
-      tierLow = 20; tierHigh = 32;
-    }
-
-    // 입력 기반 범위 — 두 sourced 공식의 결과
-    // 하한: Flâneur strict per-creative (각 소재가 CPA × 3 받음)
-    // 상한: AdRiseLab tier (월 광고비 기준 권장 최대치)
-    const lowBound = perCreativeStrict;           // Flâneur
-    const highBound = Math.max(perCreativeStrict, tierHigh);  // AdRiseLab 또는 strict 중 더 큰 값
+    // Foxwell — 소재 1개당 20×CPA 테스트 예산 필요 (winner 판별)
+    // 테스트 기간 7~10일로 분산 → 범위 산출
+    // 하한 (7일, 보수적): 소재당 일 예산 = 20×CPA/7 ≈ 2.86×CPA
+    // 상한 (10일, 적극): 소재당 일 예산 = 20×CPA/10 = 2×CPA
+    const dailyPerCreative7d = (20 * cpa) / 7;
+    const dailyPerCreative10d = (20 * cpa) / 10;
+    const lowBound = Math.floor(budget / dailyPerCreative7d);
+    const highBound = Math.floor(budget / dailyPerCreative10d);
 
     document.getElementById('m1-range').textContent = (lowBound === highBound)
       ? `${lowBound}`
       : `${lowBound} ~ ${highBound}`;
-    document.getElementById('m1-low-formula').innerHTML = `${fmtMan(budget)} ÷ (${fmtMan(cpa)} × 3) = <strong>${perCreativeStrict}개</strong>`;
-    document.getElementById('m1-high-formula').innerHTML = tierLabel;
+    document.getElementById('m1-low-formula').innerHTML = `${fmtMan(budget)} ÷ (${fmtMan(cpa)} × 20 ÷ 7) = ${fmtMan(budget)} ÷ ${fmtMan(Math.round(dailyPerCreative7d))} = <strong>${lowBound}개</strong>`;
+    document.getElementById('m1-high-formula').innerHTML = `${fmtMan(budget)} ÷ (${fmtMan(cpa)} × 20 ÷ 10) = ${fmtMan(budget)} ÷ ${fmtMan(Math.round(dailyPerCreative10d))} = <strong>${highBound}개</strong>`;
 
-    // 충돌 체크
+    // 충돌 체크 — Foxwell 범위 기준
     const conflictEl = document.getElementById('m1-conflict-check');
-    if (perCreativeStrict < sourceLow) {
-      // 예산이 너무 적어서 출처 최저 권장(5개)도 못 만듦
-      const neededBudget = sourceLow * cpa * 3;
-      conflictEl.innerHTML = `<div class="callout bad" style="margin-top: 12px;">🚨 <strong>예산이 출처 최저 권장(${sourceLow}개)도 못 만듦</strong> — 일 예산을 ${fmtMan(neededBudget)} 이상으로 올리거나 CPA 목표를 낮춰야 함.</div>`;
-    } else if (perCreativeStrict < 8) {
-      const neededFor8 = 8 * cpa * 3;
-      const neededFor15 = 15 * cpa * 3;
-      conflictEl.innerHTML = `<div class="callout" style="margin-top: 12px;">⚠️ <strong>예산이 strict 기준 ${perCreativeStrict}개까지만 허용</strong> — 다수 출처(PPC, Flâneur)는 8~15개를 권장. 권장 충족하려면 일 예산 ${fmtMan(neededFor8)} (8개) ~ ${fmtMan(neededFor15)} (15개) 필요.</div>`;
-    } else if (perCreativeStrict < 20) {
-      const neededFor20 = 20 * cpa * 3;
-      conflictEl.innerHTML = `<div class="callout tip" style="margin-top: 12px;">💡 <strong>실무 권장 범위(8~15) 충족</strong> — 적극 운영(Foxwell 20~30개)을 원하면 일 예산 ${fmtMan(neededFor20)} 이상.</div>`;
+    if (lowBound < 1) {
+      const neededBudgetFor1 = Math.round(dailyPerCreative7d);
+      conflictEl.innerHTML = `<div class="callout bad" style="margin-top: 12px;">🚨 <strong>예산이 1개도 fair test 못 함</strong> — 최소 일 예산 ${fmtMan(neededBudgetFor1)}원 이상 필요.</div>`;
+    } else if (highBound < 6) {
+      const neededFor6_10d = Math.round(6 * dailyPerCreative10d);
+      conflictEl.innerHTML = `<div class="callout" style="margin-top: 12px;">⚠️ <strong>예산이 Foxwell 기준 ${highBound}개까지만 허용</strong> — Meta 공식 최소(6개) 충족하려면 일 예산 ${fmtMan(neededFor6_10d)}원 이상 권장.</div>`;
+    } else if (highBound < 10) {
+      const neededFor10_10d = Math.round(10 * dailyPerCreative10d);
+      conflictEl.innerHTML = `<div class="callout tip" style="margin-top: 12px;">💡 <strong>Meta 최소(6개) 충족.</strong> 10개 이상 운영하려면 일 예산 ${fmtMan(neededFor10_10d)}원 이상.</div>`;
     } else {
-      conflictEl.innerHTML = `<div class="callout good" style="margin-top: 12px;">✅ <strong>적극 운영 범위(20~30개+) 가능</strong> — Foxwell·AdRiseLab 적극 운영 권장 충족.</div>`;
+      conflictEl.innerHTML = `<div class="callout good" style="margin-top: 12px;">✅ <strong>충분한 예산 — 10개 이상 fair test 가능</strong></div>`;
     }
 
     // 학습 단계 통과
