@@ -223,15 +223,17 @@
     <div class="result" id="m1-result">
 
       <div class="final-recommendation">
-        <div class="label">📐 정리 — 두 가지 관점</div>
-        <div style="margin-top: 8px;">
-          <div style="font-size: 13px; color: var(--muted); margin-bottom: 2px;">입력 예산이 허용하는 strict 최대</div>
-          <div style="font-size: 22px; font-weight: 800; color: #fff;"><span id="m1-strict-max">0</span><span style="font-size: 14px; color: var(--muted); font-weight: 600; margin-left: 4px;">개 (Flâneur 기준)</span></div>
-        </div>
-        <div style="margin-top: 14px;">
-          <div style="font-size: 13px; color: var(--muted); margin-bottom: 2px;">출처별 권장 범위 (전체)</div>
-          <div style="font-size: 22px; font-weight: 800; color: #fff;"><span id="m1-source-range">0 ~ 0</span><span style="font-size: 14px; color: var(--muted); font-weight: 600; margin-left: 4px;">개</span></div>
-          <div class="note" style="margin-top: 4px;">5(Flâneur 최저) ~ 30+ (Foxwell 적극)</div>
+        <div class="label">🎯 운영 가능 소재 수 범위</div>
+        <div style="margin-top: 6px;">
+          <div style="font-size: 36px; font-weight: 800; color: #fff;"><span id="m1-range">0 ~ 0</span><span style="font-size: 16px; color: var(--muted); font-weight: 600; margin-left: 6px;">개</span></div>
+          <div class="note" style="margin-top: 12px; line-height: 1.6;">
+            <div><strong style="color: #cfe0ff;">하한 (보수적)</strong> — 모든 소재가 균등 예산 받음 가정<br>
+              → <span id="m1-low-formula" style="font-family: 'SF Mono', monospace;">0</span> · 출처: <a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank" style="color: var(--accent);">Flâneur Archives</a>
+            </div>
+            <div style="margin-top: 10px;"><strong style="color: #cfe0ff;">상한 (적극)</strong> — Andromeda가 winner에 예산 집중 가정<br>
+              → <span id="m1-high-formula">월 광고비 기준 티어 권장</span> · 출처: <a href="https://adriselab.com/blog/meta-ads-budget-optimization-2026" target="_blank" style="color: var(--accent);">AdRiseLab 2026</a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -481,13 +483,17 @@
       tierLow = 20; tierHigh = 32;
     }
 
-    // 출처별 "권장" 범위 — 한계값(Meta 50, Foxwell '또는 50까지') 제외
-    // Flâneur 최적: 5~15, PPC: 8~15, Foxwell 적극: 20~30, AdRiseLab tier별
-    // (Meta 50은 시스템 한계, 권장 아님)
-    const sourceLow = Math.min(5, 8, tierLow);            // Flâneur, PPC, AdRiseLab tier LOW 중 최소
-    const sourceHigh = Math.max(15, 30, tierHigh);        // Flâneur, PPC, Foxwell, AdRiseLab HIGH 중 최대
-    document.getElementById('m1-strict-max').textContent = perCreativeStrict;
-    document.getElementById('m1-source-range').textContent = `${sourceLow} ~ ${sourceHigh}`;
+    // 입력 기반 범위 — 두 sourced 공식의 결과
+    // 하한: Flâneur strict per-creative (각 소재가 CPA × 3 받음)
+    // 상한: AdRiseLab tier (월 광고비 기준 권장 최대치)
+    const lowBound = perCreativeStrict;           // Flâneur
+    const highBound = Math.max(perCreativeStrict, tierHigh);  // AdRiseLab 또는 strict 중 더 큰 값
+
+    document.getElementById('m1-range').textContent = (lowBound === highBound)
+      ? `${lowBound}`
+      : `${lowBound} ~ ${highBound}`;
+    document.getElementById('m1-low-formula').innerHTML = `${fmtMan(budget)} ÷ (${fmtMan(cpa)} × 3) = <strong>${perCreativeStrict}개</strong>`;
+    document.getElementById('m1-high-formula').innerHTML = tierLabel;
 
     // 충돌 체크
     const conflictEl = document.getElementById('m1-conflict-check');
