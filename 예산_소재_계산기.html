@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta 광고 예산·소재 계산기</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --panel: #11182b;
+    --panel-2: #162038;
+    --border: #1f2a44;
+    --text: #e6ecf5;
+    --muted: #9aa7bf;
+    --accent: #4f8cff;
+    --accent-2: #7c5cff;
+    --good: #22c55e;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+    --pill-bg: #1a2440;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif; line-height: 1.7; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  header.hero {
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, #14224a 0%, #1a1340 100%);
+    border-radius: 20px;
+    padding: 32px 28px;
+    margin-bottom: 24px;
+  }
+  h1 { font-size: 28px; line-height: 1.3; margin: 8px 0 6px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 0; }
+  .tag {
+    display: inline-block;
+    background: var(--pill-bg);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+  }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+  .tab {
+    flex: 1; min-width: 180px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 14px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .tab:hover { color: var(--text); border-color: var(--accent); }
+  .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  section.calc { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 26px 28px; margin-bottom: 20px; display: none; }
+  section.calc.active { display: block; }
+  section.calc h2 { font-size: 20px; margin: 0 0 8px; display: flex; align-items: center; gap: 10px; }
+  section.calc h2 .num { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--accent); color: #fff; border-radius: 8px; font-size: 14px; font-weight: 700; }
+  section.calc .desc { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+
+  .field { margin-bottom: 14px; }
+  .field label { display: block; color: #cfe0ff; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .field input[type="number"] {
+    width: 100%;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+  }
+  .field input[type="number"]:focus { outline: none; border-color: var(--accent); }
+  .field .hint { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+  .btn {
+    background: var(--accent);
+    border: none;
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: inherit;
+    margin-top: 6px;
+    transition: background 0.15s;
+  }
+  .btn:hover { background: #3b76e0; }
+  .btn.secondary { background: var(--panel-2); border: 1px solid var(--border); color: var(--text); }
+  .btn.secondary:hover { border-color: var(--accent); }
+  .btn.danger-link { background: transparent; color: var(--bad); border: none; padding: 6px 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+  .btn.danger-link:hover { text-decoration: underline; }
+
+  .result {
+    background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(124,92,255,0.08));
+    border-left: 4px solid var(--accent);
+    padding: 18px 22px;
+    border-radius: 12px;
+    margin-top: 18px;
+    display: none;
+  }
+  .result.active { display: block; }
+  .result h3 { font-size: 14px; color: var(--accent); margin: 0 0 12px; letter-spacing: 0.5px; }
+  .result .main-num {
+    font-size: 36px; font-weight: 800; color: #fff;
+    margin: 6px 0;
+  }
+  .result .main-num .unit { font-size: 18px; color: var(--muted); font-weight: 600; margin-left: 6px; }
+  .result .sub { color: #d6dff0; font-size: 14px; margin-top: 8px; line-height: 1.7; }
+  .result table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
+  .result th, .result td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .result th { color: #cfe0ff; font-weight: 600; }
+
+  .callout { background: rgba(245,158,11,0.08); border-left: 4px solid var(--warn); padding: 12px 16px; border-radius: 10px; margin: 12px 0; font-size: 13px; color: #e6dcc0; }
+  .callout.bad { background: rgba(239,68,68,0.08); border-left-color: var(--bad); color: #f1c5c5; }
+  .callout.tip { background: rgba(124,92,255,0.08); border-left-color: var(--accent-2); color: #d8d2f0; }
+
+  /* mixed CPA rows */
+  .creative-rows { margin: 6px 0 12px; }
+  .creative-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 10px;
+    margin-bottom: 8px;
+    align-items: end;
+  }
+  .creative-row input { width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; }
+  .creative-row input:focus { outline: none; border-color: var(--accent); }
+
+  .formula-box {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 14px 0;
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 13px;
+    color: #cfe0ff;
+  }
+
+  footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 28px; line-height: 1.7; }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 22px; }
+    .wrap { padding: 28px 16px 60px; }
+    section.calc { padding: 20px 18px; }
+    .tab { min-width: 0; font-size: 13px; padding: 12px 10px; }
+    .result .main-num { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="tag">CALCULATOR</span>
+    <h1>Meta 광고 예산·소재 계산기</h1>
+    <p class="subtitle">GEM 시대 strict formula 기준 — 일 예산 = 소재 수 × CPA × 3</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" data-mode="m1">① 예산 + CPA → 소재 수</button>
+    <button class="tab" data-mode="m2">② CPA + 소재 수 → 예산</button>
+    <button class="tab" data-mode="m3">③ CPA 다른 소재 혼합</button>
+  </div>
+
+  <!-- ========== MODE 1 ========== -->
+  <section class="calc active" id="m1">
+    <h2><span class="num">1</span> 예산 + CPA → 소재 수</h2>
+    <p class="desc">일 예산과 목표 CPA를 입력하면 운영 가능한 소재 수 상한선을 계산합니다.</p>
+
+    <div class="field">
+      <label for="m1-budget">일 예산 (원)</label>
+      <input type="number" id="m1-budget" placeholder="예: 500000">
+      <div class="hint">광고 세트 1개 기준 일 예산</div>
+    </div>
+    <div class="field">
+      <label for="m1-cpa">목표 CPA (원)</label>
+      <input type="number" id="m1-cpa" placeholder="예: 30000">
+      <div class="hint">전환 1건당 목표 비용</div>
+    </div>
+
+    <button class="btn" onclick="calcM1()">계산</button>
+
+    <div class="formula-box">
+      소재 수 = 일 예산 ÷ (목표 CPA × 3)
+    </div>
+
+    <div class="result" id="m1-result">
+      <h3>📊 결과</h3>
+      <div class="main-num"><span id="m1-out-count">0</span><span class="unit">개</span></div>
+      <div class="sub" id="m1-out-detail"></div>
+      <div id="m1-out-warning"></div>
+    </div>
+  </section>
+
+  <!-- ========== MODE 2 ========== -->
+  <section class="calc" id="m2">
+    <h2><span class="num">2</span> CPA + 소재 수 → 예산</h2>
+    <p class="desc">목표 CPA와 운영하려는 소재 수를 입력하면 필요한 일 예산을 계산합니다.</p>
+
+    <div class="field">
+      <label for="m2-cpa">목표 CPA (원)</label>
+      <input type="number" id="m2-cpa" placeholder="예: 27000">
+    </div>
+    <div class="field">
+      <label for="m2-count">소재 수</label>
+      <input type="number" id="m2-count" placeholder="예: 6">
+    </div>
+
+    <button class="btn" onclick="calcM2()">계산</button>
+
+    <div class="formula-box">
+      일 예산 = 소재 수 × 목표 CPA × 3
+    </div>
+
+    <div class="result" id="m2-result">
+      <h3>💰 결과</h3>
+      <div class="main-num"><span id="m2-out-budget">0</span><span class="unit">원/일</span></div>
+      <div class="sub" id="m2-out-detail"></div>
+      <div id="m2-out-warning"></div>
+    </div>
+  </section>
+
+  <!-- ========== MODE 3 ========== -->
+  <section class="calc" id="m3">
+    <h2><span class="num">3</span> CPA가 다른 소재 혼합</h2>
+    <p class="desc">CPA가 다른 소재를 함께 운영할 때 필요한 총 예산을 계산합니다.</p>
+
+    <div class="callout">
+      ⚠️ <strong>원칙적으로는 광고세트 분리 권장</strong> — 메타에서 목표 CPA는 광고세트 단위로 설정됩니다.
+      그래도 한 세트에 묶으려면 각 그룹의 최소 예산을 합산해서 운영해야 합니다.
+    </div>
+
+    <div class="creative-rows" id="m3-rows">
+      <div class="creative-row">
+        <div>
+          <label style="display:block;color:#cfe0ff;font-size:12px;font-weight:600;margin-bottom:4px;">CPA (원)</label>
+          <input type="number" class="m3-cpa" placeholder="예: 20000">
+        </div>
+        <div>
+          <label style="display:block;color:#cfe0ff;font-size:12px;font-weight:600;margin-bottom:4px;">소재 수</label>
+          <input type="number" class="m3-count" placeholder="예: 3">
+        </div>
+        <button class="btn danger-link" onclick="removeM3Row(this)">삭제</button>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn secondary" onclick="addM3Row()">+ 행 추가</button>
+      <button class="btn" onclick="calcM3()">계산</button>
+    </div>
+
+    <div class="formula-box">
+      총 일 예산 = Σ (각 그룹 소재 수 × CPA × 3)
+    </div>
+
+    <div class="result" id="m3-result">
+      <h3>💰 결과</h3>
+      <div class="main-num"><span id="m3-out-total">0</span><span class="unit">원/일</span></div>
+      <table>
+        <thead><tr><th>그룹</th><th>CPA</th><th>소재</th><th>그룹별 최소 예산</th></tr></thead>
+        <tbody id="m3-out-table"></tbody>
+      </table>
+      <div class="sub" id="m3-out-detail"></div>
+    </div>
+  </section>
+
+  <!-- 룰북 -->
+  <section class="calc active" style="background: rgba(124,92,255,0.05); border-color: rgba(124,92,255,0.25);">
+    <h2 style="font-size:17px;"><span class="num" style="background:var(--accent-2);">i</span> 계산 기준</h2>
+    <table>
+      <thead><tr><th>룰</th><th>값</th><th>출처</th></tr></thead>
+      <tbody>
+        <tr><td>소재당 최소 일 예산</td><td>CPA × 3</td><td>Flâneur Archives</td></tr>
+        <tr><td>광고세트당 주 50전환</td><td>주간 예산 = CPA × 50</td><td>Meta 공식</td></tr>
+        <tr><td>학습 임계값</td><td>50전환 + 7일 (둘 다)</td><td>Meta 공식 + 실무</td></tr>
+        <tr><td>의미 있는 학습 시작 소재 수</td><td>광고세트당 ≥ 10개</td><td>업계 권장</td></tr>
+      </tbody>
+    </table>
+    <div class="callout tip" style="margin-top:14px;">
+      💡 <strong>주의</strong>: 이 계산기는 strict formula 기준의 <strong>안전 기준선</strong>을 알려줍니다.
+      실전에서는 Andromeda가 성과 좋은 소재에 예산을 몰아주기 때문에 더 적은 예산으로도 운영 가능하지만,
+      정확한 배수에 대한 공식 출처는 없습니다.
+    </div>
+  </section>
+
+  <footer>
+    출처: <a href="meta_gem_정리.html">바리바디 GEM 광고 알고리즘 정리본</a> · Meta 공식 가이드 · Flâneur Archives · Five Nine Strategy<br>
+    계산 결과는 안전 기준선이며, 실전 운영 시 성과 데이터에 따라 조정하세요.
+  </footer>
+</div>
+
+<script>
+  // ─── Tab switching ───
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const mode = tab.dataset.mode;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('section.calc').forEach(s => {
+        if (s.id === 'm1' || s.id === 'm2' || s.id === 'm3') {
+          s.classList.toggle('active', s.id === mode);
+        }
+      });
+    });
+  });
+
+  // ─── Helpers ───
+  function fmt(n) {
+    return Math.round(n).toLocaleString('ko-KR');
+  }
+  function fmtMan(n) {
+    if (n >= 10000) return (n / 10000).toFixed(1).replace(/\.0$/, '') + '만원';
+    return fmt(n) + '원';
+  }
+
+  // ─── Mode 1: budget + CPA → creatives ───
+  function calcM1() {
+    const budget = parseFloat(document.getElementById('m1-budget').value);
+    const cpa = parseFloat(document.getElementById('m1-cpa').value);
+    const result = document.getElementById('m1-result');
+    const warn = document.getElementById('m1-out-warning');
+
+    if (!budget || !cpa || budget <= 0 || cpa <= 0) {
+      result.classList.remove('active');
+      return;
+    }
+
+    const perCreativeMin = cpa * 3;
+    const maxCreatives = Math.floor(budget / perCreativeMin);
+    const weeklyBudget = budget * 7;
+    const weeklyConversionsAchievable = weeklyBudget / cpa;
+
+    document.getElementById('m1-out-count').textContent = maxCreatives;
+    document.getElementById('m1-out-detail').innerHTML = `
+      <strong>일 예산 ${fmtMan(budget)}</strong>에 <strong>CPA ${fmtMan(cpa)}</strong>일 때<br>
+      • 소재당 최소 필요 예산: ${fmtMan(perCreativeMin)} (CPA × 3)<br>
+      • 주간 예산: ${fmtMan(weeklyBudget)} → 주 ${Math.floor(weeklyConversionsAchievable)}전환 가능
+    `;
+
+    let warningHTML = '';
+    if (weeklyConversionsAchievable < 50) {
+      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>주 50전환 미달</strong> — 이 예산으로는 학습 단계 탈출 어려움. 일 예산을 ${fmtMan(cpa * 50 / 7)} 이상으로 올리거나 CPA 목표를 낮춰야 함.</div>`;
+    }
+    if (maxCreatives < 10) {
+      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ <strong>소재 ${maxCreatives}개는 학습 효율 부족</strong> — 광고세트당 10개 이상이 권장됨. 예산을 ${fmtMan(perCreativeMin * 10)} 이상으로 올리거나 소재 수를 줄여서 다른 광고세트와 합치는 게 좋음.</div>`;
+    }
+    if (!warningHTML) {
+      warningHTML = `<div class="callout tip" style="margin-top:12px;">✅ 안전 기준 충족 — 일 예산이 strict formula와 학습 임계값(주 50전환, 최소 10소재) 모두 만족.</div>`;
+    }
+    warn.innerHTML = warningHTML;
+    result.classList.add('active');
+  }
+
+  // ─── Mode 2: CPA + creatives → budget ───
+  function calcM2() {
+    const cpa = parseFloat(document.getElementById('m2-cpa').value);
+    const count = parseInt(document.getElementById('m2-count').value);
+    const result = document.getElementById('m2-result');
+    const warn = document.getElementById('m2-out-warning');
+
+    if (!cpa || !count || cpa <= 0 || count <= 0) {
+      result.classList.remove('active');
+      return;
+    }
+
+    const dailyBudget = count * cpa * 3;
+    const weeklyBudget = dailyBudget * 7;
+    const weeklyConversionsAchievable = weeklyBudget / cpa;
+    const monthlyBudget = dailyBudget * 30;
+
+    document.getElementById('m2-out-budget').textContent = fmt(dailyBudget);
+    document.getElementById('m2-out-detail').innerHTML = `
+      <strong>CPA ${fmtMan(cpa)}</strong>에 소재 <strong>${count}개</strong> 운영 시<br>
+      • 주간 예산: ${fmtMan(weeklyBudget)} → 주 ${Math.floor(weeklyConversionsAchievable)}전환 기대<br>
+      • 월간 예산: ${fmtMan(monthlyBudget)}
+    `;
+
+    let warningHTML = '';
+    if (weeklyConversionsAchievable < 50) {
+      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>주 50전환 미달</strong> — 학습 단계 탈출 어려움. 소재 수를 ${Math.ceil(50 / 7 / 3)}개 이상으로 늘려야 함 (예산도 비례 증가).</div>`;
+    }
+    if (count < 10) {
+      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ <strong>소재 ${count}개는 학습 효율 부족</strong> — 광고세트당 10개 이상 권장. 가능하면 소재 수를 늘리세요 (일 예산 ${fmtMan(cpa * 3 * 10)} 필요).</div>`;
+    }
+    if (!warningHTML) {
+      warningHTML = `<div class="callout tip" style="margin-top:12px;">✅ 안전 기준 충족 — 학습 임계값과 strict formula 모두 만족.</div>`;
+    }
+    warn.innerHTML = warningHTML;
+    result.classList.add('active');
+  }
+
+  // ─── Mode 3: mixed CPA ───
+  function addM3Row() {
+    const rows = document.getElementById('m3-rows');
+    const row = document.createElement('div');
+    row.className = 'creative-row';
+    row.innerHTML = `
+      <div>
+        <label style="display:block;color:#cfe0ff;font-size:12px;font-weight:600;margin-bottom:4px;">CPA (원)</label>
+        <input type="number" class="m3-cpa" placeholder="예: 30000">
+      </div>
+      <div>
+        <label style="display:block;color:#cfe0ff;font-size:12px;font-weight:600;margin-bottom:4px;">소재 수</label>
+        <input type="number" class="m3-count" placeholder="예: 3">
+      </div>
+      <button class="btn danger-link" onclick="removeM3Row(this)">삭제</button>
+    `;
+    rows.appendChild(row);
+  }
+
+  function removeM3Row(btn) {
+    const rows = document.querySelectorAll('#m3-rows .creative-row');
+    if (rows.length <= 1) return;
+    btn.closest('.creative-row').remove();
+  }
+
+  function calcM3() {
+    const cpas = document.querySelectorAll('#m3-rows .m3-cpa');
+    const counts = document.querySelectorAll('#m3-rows .m3-count');
+    const result = document.getElementById('m3-result');
+
+    let total = 0;
+    let totalCount = 0;
+    let weightedCpaSum = 0;
+    const groupRows = [];
+
+    for (let i = 0; i < cpas.length; i++) {
+      const cpa = parseFloat(cpas[i].value);
+      const count = parseInt(counts[i].value);
+      if (!cpa || !count || cpa <= 0 || count <= 0) continue;
+      const groupBudget = cpa * count * 3;
+      total += groupBudget;
+      totalCount += count;
+      weightedCpaSum += cpa * count;
+      groupRows.push({ idx: i + 1, cpa, count, groupBudget });
+    }
+
+    if (groupRows.length === 0) {
+      result.classList.remove('active');
+      return;
+    }
+
+    document.getElementById('m3-out-total').textContent = fmt(total);
+
+    let tableHTML = '';
+    groupRows.forEach(g => {
+      tableHTML += `<tr><td>그룹 ${g.idx}</td><td>${fmtMan(g.cpa)}</td><td>${g.count}개</td><td>${fmtMan(g.groupBudget)}</td></tr>`;
+    });
+    document.getElementById('m3-out-table').innerHTML = tableHTML;
+
+    const avgCpa = weightedCpaSum / totalCount;
+    const weeklyBudget = total * 7;
+    const weeklyConversions = weeklyBudget / avgCpa;
+
+    let warningHTML = `
+      <div style="margin-top:14px;">
+        <strong>전체 소재 수:</strong> ${totalCount}개<br>
+        <strong>가중 평균 CPA:</strong> ${fmtMan(avgCpa)} (≈ 광고세트 전체 평균)<br>
+        <strong>주간 예산:</strong> ${fmtMan(weeklyBudget)} → 주 ${Math.floor(weeklyConversions)}전환 기대
+      </div>
+    `;
+
+    // 각 그룹의 CPA 차이 확인
+    const cpaValues = groupRows.map(g => g.cpa);
+    const maxCpa = Math.max(...cpaValues);
+    const minCpa = Math.min(...cpaValues);
+    const cpaRatio = maxCpa / minCpa;
+
+    if (cpaRatio > 2) {
+      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>그룹 간 CPA 차이가 ${cpaRatio.toFixed(1)}배</strong> — 광고세트 분리를 강력 권장. 한 세트에 묶으면 CPA 높은 그룹이 노출을 거의 못 받음.</div>`;
+    } else if (cpaRatio > 1.5) {
+      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ <strong>그룹 간 CPA 차이 ${cpaRatio.toFixed(1)}배</strong> — 가능하면 광고세트 분리 검토.</div>`;
+    }
+
+    if (weeklyConversions < 50) {
+      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>주 50전환 미달</strong> — 학습 단계 탈출 어려움.</div>`;
+    }
+
+    if (totalCount < 10) {
+      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ 전체 소재 ${totalCount}개는 학습 효율 부족. 광고세트당 10개 이상 권장.</div>`;
+    }
+
+    document.getElementById('m3-out-detail').innerHTML = warningHTML;
+    result.classList.add('active');
+  }
+</script>
+</body>
+</html>
