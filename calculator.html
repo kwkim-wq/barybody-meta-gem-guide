@@ -481,10 +481,11 @@
       tierLow = 20; tierHigh = 32;
     }
 
-    // 출처별 권장 범위 — 모든 출처의 LOW/HIGH 통합
-    // Flâneur 5~15, PPC 8~15, Foxwell 20~30(or 50), Meta 6~50, AdRiseLab tier별
-    const sourceLow = Math.min(5, 6, 8, tierLow); // 모든 출처 LOW 중 최소
-    const sourceHigh = Math.max(15, 30, 50, tierHigh); // 모든 출처 HIGH 중 최대
+    // 출처별 "권장" 범위 — 한계값(Meta 50, Foxwell '또는 50까지') 제외
+    // Flâneur 최적: 5~15, PPC: 8~15, Foxwell 적극: 20~30, AdRiseLab tier별
+    // (Meta 50은 시스템 한계, 권장 아님)
+    const sourceLow = Math.min(5, 8, tierLow);            // Flâneur, PPC, AdRiseLab tier LOW 중 최소
+    const sourceHigh = Math.max(15, 30, tierHigh);        // Flâneur, PPC, Foxwell, AdRiseLab HIGH 중 최대
     document.getElementById('m1-strict-max').textContent = perCreativeStrict;
     document.getElementById('m1-source-range').textContent = `${sourceLow} ~ ${sourceHigh}`;
 
