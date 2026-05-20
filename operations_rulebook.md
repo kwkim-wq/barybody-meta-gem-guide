@@ -79,10 +79,10 @@ metrics:
 
 ```yaml
 constants:
-  # 학습 단계
-  LEARNING_CONVERSIONS_THRESHOLD: 50      # 광고 세트당
-  LEARNING_DAYS_THRESHOLD: 7              # 둘 중 먼저 도달
-  LEARNING_TIMEFRAME_WINDOW_DAYS: 7       # 50전환 카운트 기준
+  # 학습 단계 — 두 조건 모두 충족되어야 학습 완료 (AND)
+  LEARNING_CONVERSIONS_THRESHOLD: 50      # 광고 세트당 누적 전환 (통계적 충분성)
+  LEARNING_MIN_DAYS: 7                    # 최소 일수 (요일 패턴 관측 주기)
+  # 주의: 50전환을 5일 만에 채워도 7일은 유지해야 함
 
   # 소재 평가
   HOOK_RATE_TARGET: 0.30                  # 30%
@@ -138,10 +138,16 @@ formulas:
 
   learning_phase_status:
     formula: |
-      IF (ad_set.conversions_in_last_7_days >= 50): "LEARNING_COMPLETE"
-      ELIF (days_since_launch >= 7): "LEARNING_COMPLETE"  # 7일 경과해도 완료
-      ELSE: "LEARNING"
-    source: Meta 공식
+      # 50전환 = 통계적 충분성 / 7일 = 요일별 행동 주기 관측
+      # 둘 다 충족되어야 학습 완료 (AND, not OR)
+      IF (ad_set.conversions_since_launch >= 50 AND days_since_launch >= 7):
+        "LEARNING_COMPLETE"
+      ELSE:
+        "LEARNING"
+    source: Meta 공식 + 실무 consensus (요일 패턴 관측 필요)
+    rationale:
+      - "50전환만 채워지고 7일 안 됐다 → 요일 패턴 미관측 → 학습 미완"
+      - "7일 채워졌지만 50전환 미달 → 통계적 신뢰 부족 → 학습 미완"
 ```
 
 ---
@@ -198,11 +204,12 @@ launch_defaults:
 rule_learning_phase_protection:
   priority: 1
   condition:
-    AND:
-      - ad_set.conversions_in_last_7_days < 50
+    # 둘 중 하나라도 미충족이면 학습 단계로 간주 (OR)
+    OR:
+      - ad_set.conversions_since_launch < 50
       - days_since_launch < 7
   action: SKIP_ALL_EVALUATIONS
-  message: "학습 단계. 평가 보류."
+  message: "학습 단계. 평가 보류. (50전환 + 7일 모두 충족 필요)"
   allowed_actions_during_learning:
     - "오타·이미지 결함 등 critical fix만 허용"
   forbidden_actions_during_learning:
