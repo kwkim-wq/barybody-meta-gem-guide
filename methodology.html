@@ -197,16 +197,31 @@
     </table>
 
     <!-- 1-3 -->
-    <h3>1-3. 소재 수 결정 — 두 제약을 동시에 충족</h3>
+    <h3>1-3. 소재 수 결정 — Foxwell 20× CPA 기준</h3>
     <div class="formula-box">
-      <span class="eq">제약 ① 예산: 소재 수 ≤ 일 예산 ÷ (목표 CPA × 3)</span><br>
-      <span class="eq">제약 ② 학습: 소재 수 ≥ 10</span>
+      <span class="eq">소재 수 = 일 예산 ÷ (CPA × 20 ÷ 테스트 기간)</span>
+    </div>
+    <p>
+      <strong>Foxwell Digital</strong>: "소재 1개당 winner 판별까지 <strong>20 × CPA의 테스트 예산</strong> 필요"<br>
+      이 테스트 예산을 며칠에 분산하느냐가 소재 수를 결정합니다.
+    </p>
+    <table>
+      <thead><tr><th>테스트 기간</th><th>소재당 일 예산</th><th>50만원 / CPA 27,000 결과</th></tr></thead>
+      <tbody>
+        <tr><td>7일 (보수적)</td><td>CPA × 2.86 ≈ CPA × 3</td><td><strong>6개</strong></td></tr>
+        <tr><td>10일 (적극)</td><td>CPA × 2</td><td><strong>9개</strong></td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn" style="margin-top: 10px;">
+      <strong>왜 이 범위가 나오는가:</strong><br>
+      ① 각 소재가 winner인지 loser인지 판별 받기 전에 도태되면 안 됨 → 소재당 충분한 누적 예산 필요<br>
+      ② 광고 세트 전체로는 주 50전환 (Meta 공식 학습 단계 통과 기준) 도달해야 함<br>
+      → 두 조건의 교집합이 위 범위
     </div>
     <ul>
-      <li><strong>제약 ①</strong> — 각 소재가 최소 노출 확보 (Andromeda 도태 방지). 출처: Flâneur Archives</li>
-      <li><strong>제약 ②</strong> — GEM이 의미 있는 학습 시작. 출처: 업계 권장 (Madgicx 등)</li>
-      <li>둘이 충돌하면 → <strong>예산을 키우거나 캠페인을 통합</strong>해서 한 광고세트에 소재를 모으기</li>
-      <li>🧮 <a href="calculator.html" style="color: var(--accent); font-weight: 600;">예산·소재 계산기 →</a> 본인 케이스 계산 (반대 방향, 혼합 CPA 모두 지원)</li>
+      <li><strong>출처</strong>: <a href="https://www.foxwelldigital.com/blog/meta-ads-how-much-creative-is-needed-by-volume" target="_blank" style="color: var(--accent);">Foxwell Digital — 20× CPA per creative</a></li>
+      <li><strong>참고 다른 출처</strong>: Madgicx (소재당 10전환 + 100클릭 minimum), AdRow (95% 신뢰도 소재당 30~50전환), Meta 공식 (광고 세트 주 50전환)</li>
+      <li>🧮 <a href="calculator.html" style="color: var(--accent); font-weight: 600;">예산·소재 계산기 →</a> 본인 케이스 계산 (반대 방향, 혼합 CPA 지원)</li>
     </ul>
 
     <!-- 1-4 -->
