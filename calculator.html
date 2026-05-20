@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meta 광고 예산·소재 계산기</title>
+<title>Meta GEM 시대 — 예산·소재 계산기</title>
 <style>
   :root {
     --bg: #0b1220;
@@ -21,7 +21,7 @@
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif; line-height: 1.7; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 48px 24px 80px; }
 
   header.hero {
     border: 1px solid var(--border);
@@ -41,6 +41,17 @@
     padding: 4px 10px;
     border-radius: 999px;
     letter-spacing: 0.5px;
+  }
+  .era-tag {
+    display: inline-block;
+    background: rgba(34,197,94,0.15);
+    color: var(--good);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    margin-left: 6px;
   }
 
   .tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
@@ -79,7 +90,6 @@
     font-family: inherit;
   }
   .field input[type="number"]:focus { outline: none; border-color: var(--accent); }
-  .field .hint { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
   .btn {
     background: var(--accent);
@@ -101,30 +111,52 @@
   .btn.danger-link:hover { text-decoration: underline; }
 
   .result {
-    background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(124,92,255,0.08));
-    border-left: 4px solid var(--accent);
-    padding: 18px 22px;
-    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(79,140,255,0.10), rgba(124,92,255,0.06));
+    border: 1px solid rgba(79,140,255,0.25);
+    padding: 20px 24px;
+    border-radius: 14px;
     margin-top: 18px;
     display: none;
   }
   .result.active { display: block; }
-  .result h3 { font-size: 14px; color: var(--accent); margin: 0 0 12px; letter-spacing: 0.5px; }
-  .result .main-num {
-    font-size: 36px; font-weight: 800; color: #fff;
-    margin: 6px 0;
+  .result h3 { font-size: 14px; color: var(--accent); margin: 0 0 10px; letter-spacing: 0.5px; }
+
+  .source-row {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
   }
-  .result .main-num .unit { font-size: 18px; color: var(--muted); font-weight: 600; margin-left: 6px; }
-  .result .sub { color: #d6dff0; font-size: 14px; margin-top: 8px; line-height: 1.7; }
-  .result table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
-  .result th, .result td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .result th { color: #cfe0ff; font-weight: 600; }
+  .source-row .left .formula { font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: 13px; color: #b9c8e5; }
+  .source-row .left .answer { font-size: 18px; font-weight: 800; color: #fff; margin-top: 2px; }
+  .source-row .left .answer .unit { font-size: 13px; color: var(--muted); font-weight: 600; margin-left: 4px; }
+  .source-row .right { text-align: right; font-size: 11px; }
+  .source-row .right a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .source-row .right a:hover { text-decoration: underline; }
+  .source-row .right .src-label { display: block; color: var(--muted); margin-bottom: 2px; letter-spacing: 0.3px; }
+
+  .final-recommendation {
+    background: rgba(34,197,94,0.10);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 16px;
+  }
+  .final-recommendation .label { font-size: 12px; color: var(--good); font-weight: 700; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .final-recommendation .range { font-size: 26px; font-weight: 800; color: #fff; }
+  .final-recommendation .range .unit { font-size: 16px; color: var(--muted); font-weight: 600; }
+  .final-recommendation .note { font-size: 13px; color: #b8d4b8; margin-top: 6px; }
 
   .callout { background: rgba(245,158,11,0.08); border-left: 4px solid var(--warn); padding: 12px 16px; border-radius: 10px; margin: 12px 0; font-size: 13px; color: #e6dcc0; }
   .callout.bad { background: rgba(239,68,68,0.08); border-left-color: var(--bad); color: #f1c5c5; }
   .callout.tip { background: rgba(124,92,255,0.08); border-left-color: var(--accent-2); color: #d8d2f0; }
+  .callout.good { background: rgba(34,197,94,0.08); border-left-color: var(--good); color: #b8d4b8; }
 
-  /* mixed CPA rows */
   .creative-rows { margin: 6px 0 12px; }
   .creative-row {
     display: grid;
@@ -136,16 +168,12 @@
   .creative-row input { width: 100%; background: var(--panel-2); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 8px; font-size: 14px; font-family: inherit; }
   .creative-row input:focus { outline: none; border-color: var(--accent); }
 
-  .formula-box {
-    background: var(--panel-2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin: 14px 0;
-    font-family: 'SF Mono', Menlo, Consolas, monospace;
-    font-size: 13px;
-    color: #cfe0ff;
-  }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--panel-2); color: #cfe0ff; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  td a { color: var(--accent); text-decoration: none; }
+  td a:hover { text-decoration: underline; }
 
   footer { color: var(--muted); font-size: 12px; text-align: center; margin-top: 28px; line-height: 1.7; }
   footer a { color: var(--accent); }
@@ -155,7 +183,8 @@
     .wrap { padding: 28px 16px 60px; }
     section.calc { padding: 20px 18px; }
     .tab { min-width: 0; font-size: 13px; padding: 12px 10px; }
-    .result .main-num { font-size: 28px; }
+    .source-row { grid-template-columns: 1fr; }
+    .source-row .right { text-align: left; }
   }
 </style>
 </head>
@@ -164,8 +193,9 @@
 
   <header class="hero">
     <span class="tag">CALCULATOR</span>
+    <span class="era-tag">GEM/ANDROMEDA 시대 (2025~2026)</span>
     <h1>Meta 광고 예산·소재 계산기</h1>
-    <p class="subtitle">GEM 시대 strict formula 기준 — 일 예산 = 소재 수 × CPA × 3</p>
+    <p class="subtitle">출처별 공식이 다르기 때문에 결과는 <strong>범위</strong>로 표시됩니다. 각 결과에 출처 링크가 포함됩니다.</p>
   </header>
 
   <div class="tabs">
@@ -177,37 +207,84 @@
   <!-- ========== MODE 1 ========== -->
   <section class="calc active" id="m1">
     <h2><span class="num">1</span> 예산 + CPA → 소재 수</h2>
-    <p class="desc">일 예산과 목표 CPA를 입력하면 운영 가능한 소재 수 상한선을 계산합니다.</p>
+    <p class="desc">일 예산과 목표 CPA를 입력하면, 출처별 공식으로 권장 소재 수를 모두 보여줍니다.</p>
 
     <div class="field">
       <label for="m1-budget">일 예산 (원)</label>
       <input type="number" id="m1-budget" placeholder="예: 500000">
-      <div class="hint">광고 세트 1개 기준 일 예산</div>
     </div>
     <div class="field">
       <label for="m1-cpa">목표 CPA (원)</label>
       <input type="number" id="m1-cpa" placeholder="예: 30000">
-      <div class="hint">전환 1건당 목표 비용</div>
     </div>
 
     <button class="btn" onclick="calcM1()">계산</button>
 
-    <div class="formula-box">
-      소재 수 = 일 예산 ÷ (목표 CPA × 3)
-    </div>
-
     <div class="result" id="m1-result">
-      <h3>📊 결과</h3>
-      <div class="main-num"><span id="m1-out-count">0</span><span class="unit">개</span></div>
-      <div class="sub" id="m1-out-detail"></div>
-      <div id="m1-out-warning"></div>
+      <h3>📊 출처별 권장 소재 수</h3>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">일예산 ÷ (CPA × 3) — 입력 예산 기준 최대치</div>
+          <div class="answer"><span id="m1-r1" class="val">0</span><span class="unit">개</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank">Flâneur Archives</a></div>
+      </div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">Meta 공식 광고세트당 범위</div>
+          <div class="answer">6 ~ 50<span class="unit">개</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://ko-kr.facebook.com/business/help/2720085414702598" target="_blank">Meta Business</a></div>
+      </div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">PPC Blog Pro — 실무 컨센서스</div>
+          <div class="answer">8 ~ 15<span class="unit">개</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://ppcblogpro.com/meta-andromeda-campaign-structure/" target="_blank">PPC Blog Pro</a></div>
+      </div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">Flâneur — GEM 시대 최적 구간</div>
+          <div class="answer">5 ~ 15<span class="unit">개</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank">Flâneur Archives</a></div>
+      </div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">Foxwell — 적극 운영 (Andromeda)</div>
+          <div class="answer">20 ~ 30<span class="unit">개 (또는 50까지)</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://www.foxwelldigital.com/blog/how-andromeda-has-changed-meta-advertising-a-practical-guide" target="_blank">Foxwell Digital</a></div>
+      </div>
+
+      <div class="source-row" id="m1-r6-row">
+        <div class="left">
+          <div class="formula">AdRiseLab — 월 광고비 티어별 권장</div>
+          <div class="answer" id="m1-r6">-</div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://adriselab.com/blog/meta-ads-budget-optimization-2026" target="_blank">AdRiseLab 2026</a></div>
+      </div>
+
+      <div class="final-recommendation">
+        <div class="label">🎯 종합 권장 범위 — 출처들의 교집합</div>
+        <div class="range"><span id="m1-final">0 ~ 0</span><span class="unit"> 개</span></div>
+        <div class="note">하한: Meta 최소 6개 · 상한: 입력 예산이 허용하는 strict 한계</div>
+      </div>
+
+      <div id="m1-learning-check"></div>
     </div>
   </section>
 
   <!-- ========== MODE 2 ========== -->
   <section class="calc" id="m2">
     <h2><span class="num">2</span> CPA + 소재 수 → 예산</h2>
-    <p class="desc">목표 CPA와 운영하려는 소재 수를 입력하면 필요한 일 예산을 계산합니다.</p>
+    <p class="desc">목표 CPA와 운영 소재 수를 입력하면, 출처별 공식으로 필요 일 예산을 모두 계산합니다.</p>
 
     <div class="field">
       <label for="m2-cpa">목표 CPA (원)</label>
@@ -220,26 +297,50 @@
 
     <button class="btn" onclick="calcM2()">계산</button>
 
-    <div class="formula-box">
-      일 예산 = 소재 수 × 목표 CPA × 3
-    </div>
-
     <div class="result" id="m2-result">
-      <h3>💰 결과</h3>
-      <div class="main-num"><span id="m2-out-budget">0</span><span class="unit">원/일</span></div>
-      <div class="sub" id="m2-out-detail"></div>
-      <div id="m2-out-warning"></div>
+      <h3>💰 출처별 필요 일 예산</h3>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">소재 수 × CPA × 3 — Per-creative 합산</div>
+          <div class="answer"><span id="m2-r1" class="val">0</span><span class="unit">원/일</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank">Flâneur Archives</a></div>
+      </div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">(CPA × 50) ÷ 7 — 광고세트 학습 최소</div>
+          <div class="answer"><span id="m2-r2" class="val">0</span><span class="unit">원/일</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://www.stackmatix.com/blog/meta-ads-minimum-daily-budget-2026" target="_blank">Stackmatix 2026</a></div>
+      </div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">CPA × 10 — 더 엄격한 학습 통과 기준</div>
+          <div class="answer"><span id="m2-r3" class="val">0</span><span class="unit">원/일</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://extuitive.com/articles/meta-ads-minimum-budget-for-testing" target="_blank">Extuitive</a></div>
+      </div>
+
+      <div class="final-recommendation">
+        <div class="label">🎯 안전 권장 일 예산 — 세 출처 중 가장 큰 값</div>
+        <div class="range"><span id="m2-final-val">0</span><span class="unit"> 원/일</span></div>
+        <div class="note">셋 다 충족 → 가장 안전. 더 작은 예산으로도 운영은 가능하지만 출처에 따라 학습 위험 있음.</div>
+      </div>
+
+      <div id="m2-warnings"></div>
     </div>
   </section>
 
   <!-- ========== MODE 3 ========== -->
   <section class="calc" id="m3">
     <h2><span class="num">3</span> CPA가 다른 소재 혼합</h2>
-    <p class="desc">CPA가 다른 소재를 함께 운영할 때 필요한 총 예산을 계산합니다.</p>
+    <p class="desc">CPA가 다른 소재를 한 광고세트에 묶을 때 필요한 예산을 계산합니다.</p>
 
     <div class="callout">
-      ⚠️ <strong>원칙적으로는 광고세트 분리 권장</strong> — 메타에서 목표 CPA는 광고세트 단위로 설정됩니다.
-      그래도 한 세트에 묶으려면 각 그룹의 최소 예산을 합산해서 운영해야 합니다.
+      ⚠️ <strong>원칙: 광고세트는 분리 권장</strong> (Foxwell Digital — Andromeda가 광고세트를 단일 학습 단위로 처리). Meta에서 목표 CPA는 광고세트 단위로 설정됩니다.
     </div>
 
     <div class="creative-rows" id="m3-rows">
@@ -261,48 +362,116 @@
       <button class="btn" onclick="calcM3()">계산</button>
     </div>
 
-    <div class="formula-box">
-      총 일 예산 = Σ (각 그룹 소재 수 × CPA × 3)
-    </div>
-
     <div class="result" id="m3-result">
-      <h3>💰 결과</h3>
-      <div class="main-num"><span id="m3-out-total">0</span><span class="unit">원/일</span></div>
+      <h3>💰 그룹별 합산 + 학습 최소 비교</h3>
+
       <table>
-        <thead><tr><th>그룹</th><th>CPA</th><th>소재</th><th>그룹별 최소 예산</th></tr></thead>
+        <thead><tr><th>그룹</th><th>CPA</th><th>소재</th><th>그룹 최소 (CPA × 3 × 소재)</th></tr></thead>
         <tbody id="m3-out-table"></tbody>
       </table>
-      <div class="sub" id="m3-out-detail"></div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">전체 합산 — Per-creative</div>
+          <div class="answer"><span id="m3-total" class="val">0</span><span class="unit">원/일</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank">Flâneur</a></div>
+      </div>
+
+      <div class="source-row">
+        <div class="left">
+          <div class="formula">가중 평균 CPA 학습 최소 — (avg_CPA × 50) ÷ 7</div>
+          <div class="answer"><span id="m3-learning" class="val">0</span><span class="unit">원/일</span></div>
+        </div>
+        <div class="right"><span class="src-label">출처</span><a href="https://www.stackmatix.com/blog/meta-ads-minimum-daily-budget-2026" target="_blank">Stackmatix</a></div>
+      </div>
+
+      <div class="final-recommendation">
+        <div class="label">🎯 안전 권장 일 예산</div>
+        <div class="range"><span id="m3-final" class="val">0</span><span class="unit"> 원/일</span></div>
+        <div class="note">위 두 값 중 가장 큰 값</div>
+      </div>
+
+      <div id="m3-warnings"></div>
     </div>
   </section>
 
-  <!-- 룰북 -->
-  <section class="calc active" style="background: rgba(124,92,255,0.05); border-color: rgba(124,92,255,0.25);">
-    <h2 style="font-size:17px;"><span class="num" style="background:var(--accent-2);">i</span> 계산 기준</h2>
+  <!-- ========== 출처 목록 ========== -->
+  <section class="calc active" style="background: rgba(124,92,255,0.04); border-color: rgba(124,92,255,0.2);">
+    <h2 style="font-size: 17px;"><span class="num" style="background: var(--accent-2);">i</span> 사용된 출처 — 모두 GEM/Andromeda 시대 (2025~2026)</h2>
+    <p style="color: var(--muted); font-size: 13px; margin-top: 0; margin-bottom: 14px;">
+      Meta가 정량적 최저 예산·소재 수를 공식 명시하지 않기 때문에, 각 에이전시·전문가가 자체 데이터 기반으로 다른 권장 수치를 발표합니다.
+    </p>
+
     <table>
-      <thead><tr><th>룰</th><th>값</th><th>출처</th></tr></thead>
+      <thead><tr><th>공식 / 권장</th><th>출처</th><th>비고</th></tr></thead>
       <tbody>
-        <tr><td>소재당 최소 일 예산</td><td>CPA × 3</td><td>Flâneur Archives</td></tr>
-        <tr><td>광고세트당 주 50전환</td><td>주간 예산 = CPA × 50</td><td>Meta 공식</td></tr>
-        <tr><td>학습 임계값</td><td>50전환 + 7일 (둘 다)</td><td>Meta 공식 + 실무</td></tr>
-        <tr><td>의미 있는 학습 시작 소재 수</td><td>광고세트당 ≥ 10개</td><td>업계 권장</td></tr>
+        <tr>
+          <td>소재당 일 예산 = CPA × 3</td>
+          <td><a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank">Flâneur Archives</a></td>
+          <td>GEM/Andromeda 가이드 (한국)</td>
+        </tr>
+        <tr>
+          <td>광고세트 일 예산 = (CPA × 50) ÷ 7</td>
+          <td><a href="https://www.stackmatix.com/blog/meta-ads-minimum-daily-budget-2026" target="_blank">Stackmatix</a></td>
+          <td>주 50전환 학습 단계 통과 기준 (2026)</td>
+        </tr>
+        <tr>
+          <td>광고세트 일 예산 = CPA × 10</td>
+          <td><a href="https://extuitive.com/articles/meta-ads-minimum-budget-for-testing" target="_blank">Extuitive</a></td>
+          <td>더 엄격한 안전 기준</td>
+        </tr>
+        <tr>
+          <td>광고세트당 6~50개</td>
+          <td><a href="https://ko-kr.facebook.com/business/help/2720085414702598" target="_blank">Meta 공식</a></td>
+          <td>최소 6, 최대 50</td>
+        </tr>
+        <tr>
+          <td>광고세트당 8~15개 권장</td>
+          <td><a href="https://ppcblogpro.com/meta-andromeda-campaign-structure/" target="_blank">PPC Blog Pro</a></td>
+          <td>Andromeda 시대 실무 컨센서스</td>
+        </tr>
+        <tr>
+          <td>광고세트당 5~15개 최적</td>
+          <td><a href="https://archives.flaneur.kr/entry/meta-advertising-algorithm-gem-andromeda-optimization-guide" target="_blank">Flâneur Archives</a></td>
+          <td>GEM/Andromeda 가이드 (한국)</td>
+        </tr>
+        <tr>
+          <td>광고세트당 20~30개 적극</td>
+          <td><a href="https://www.foxwelldigital.com/blog/how-andromeda-has-changed-meta-advertising-a-practical-guide" target="_blank">Foxwell Digital</a></td>
+          <td>Andromeda 시대 실무 가이드</td>
+        </tr>
+        <tr>
+          <td>월 광고비 티어별 권장 수</td>
+          <td><a href="https://adriselab.com/blog/meta-ads-budget-optimization-2026" target="_blank">AdRiseLab</a></td>
+          <td>$3K~10K → 10~15 / $10K~50K → 15~20+ / $50K+ → 20~30+ (2026)</td>
+        </tr>
+        <tr>
+          <td>광고세트당 최대 150개 가능</td>
+          <td><a href="https://www.jonloomer.com/meta-andromeda-creative-diversification/" target="_blank">Jon Loomer</a></td>
+          <td>실험상 20~50개가 최적 보고</td>
+        </tr>
+        <tr>
+          <td>한국 실무 — 세트당 일예산 1만원 이상</td>
+          <td><a href="https://www.i-boss.co.kr/ab-2110-22603" target="_blank">i-boss</a></td>
+          <td>증액 3~5일 간격 20% 권장</td>
+        </tr>
+        <tr>
+          <td>Andromeda — 한 광고세트 = 단일 학습 단위</td>
+          <td><a href="https://www.samtomlinson.me/insights/issue-137-creative-in-the-age-of-andromeda/" target="_blank">Sam Tomlinson</a></td>
+          <td>30개 광고 변형이 1개로 처리될 수 있음 (의미적 다양성 강조)</td>
+        </tr>
       </tbody>
     </table>
-    <div class="callout tip" style="margin-top:14px;">
-      💡 <strong>주의</strong>: 이 계산기는 strict formula 기준의 <strong>안전 기준선</strong>을 알려줍니다.
-      실전에서는 Andromeda가 성과 좋은 소재에 예산을 몰아주기 때문에 더 적은 예산으로도 운영 가능하지만,
-      정확한 배수에 대한 공식 출처는 없습니다.
-    </div>
   </section>
 
   <footer>
-    출처: <a href="meta_gem_정리.html">바리바디 GEM 광고 알고리즘 정리본</a> · Meta 공식 가이드 · Flâneur Archives · Five Nine Strategy<br>
-    계산 결과는 안전 기준선이며, 실전 운영 시 성과 데이터에 따라 조정하세요.
+    GEM/Andromeda 시대 (2025년 11월~) 기준 · 결과는 출처별 공식의 단순 계산 · 실전에서는 본인 계정 데이터로 검증<br>
+    <a href="index.html">← 메인 가이드</a> · <a href="methodology.html">운영 방법론</a> · <a href="metrics.html">소재 운영 지표</a>
   </footer>
 </div>
 
 <script>
-  // ─── Tab switching ───
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
       const mode = tab.dataset.mode;
@@ -316,92 +485,100 @@
     });
   });
 
-  // ─── Helpers ───
-  function fmt(n) {
-    return Math.round(n).toLocaleString('ko-KR');
-  }
+  function fmt(n) { return Math.round(n).toLocaleString('ko-KR'); }
   function fmtMan(n) {
-    if (n >= 10000) return (n / 10000).toFixed(1).replace(/\.0$/, '') + '만원';
+    if (n >= 10000) return (n / 10000).toFixed(n >= 100000 ? 0 : 1).replace(/\.0$/, '') + '만원';
     return fmt(n) + '원';
   }
 
-  // ─── Mode 1: budget + CPA → creatives ───
   function calcM1() {
     const budget = parseFloat(document.getElementById('m1-budget').value);
     const cpa = parseFloat(document.getElementById('m1-cpa').value);
     const result = document.getElementById('m1-result');
-    const warn = document.getElementById('m1-out-warning');
 
     if (!budget || !cpa || budget <= 0 || cpa <= 0) {
       result.classList.remove('active');
       return;
     }
 
-    const perCreativeMin = cpa * 3;
-    const maxCreatives = Math.floor(budget / perCreativeMin);
-    const weeklyBudget = budget * 7;
-    const weeklyConversionsAchievable = weeklyBudget / cpa;
+    // 1. Flâneur Per-creative strict
+    const perCreativeStrict = Math.floor(budget / (cpa * 3));
+    document.getElementById('m1-r1').textContent = perCreativeStrict;
 
-    document.getElementById('m1-out-count').textContent = maxCreatives;
-    document.getElementById('m1-out-detail').innerHTML = `
-      <strong>일 예산 ${fmtMan(budget)}</strong>에 <strong>CPA ${fmtMan(cpa)}</strong>일 때<br>
-      • 소재당 최소 필요 예산: ${fmtMan(perCreativeMin)} (CPA × 3)<br>
-      • 주간 예산: ${fmtMan(weeklyBudget)} → 주 ${Math.floor(weeklyConversionsAchievable)}전환 가능
-    `;
+    // 6. AdRiseLab tier (월 광고비)
+    const monthlyKrw = budget * 30;
+    const monthlyUsd = monthlyKrw / 1300; // 환율 약 1,300원 가정
+    let tierLabel = '', tierLow = 0, tierHigh = 0;
+    if (monthlyUsd < 3000) {
+      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) — $3K 티어 미달`;
+      tierLow = 5; tierHigh = 10;
+    } else if (monthlyUsd < 10000) {
+      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) → 10~15개`;
+      tierLow = 10; tierHigh = 15;
+    } else if (monthlyUsd < 50000) {
+      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) → 15~20+개`;
+      tierLow = 15; tierHigh = 22;
+    } else {
+      tierLabel = `월 ${fmtMan(monthlyKrw)} (≈ $${Math.round(monthlyUsd)}) → 20~30+개`;
+      tierLow = 20; tierHigh = 32;
+    }
+    document.getElementById('m1-r6').innerHTML = tierLabel;
 
-    let warningHTML = '';
-    if (weeklyConversionsAchievable < 50) {
-      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>주 50전환 미달</strong> — 이 예산으로는 학습 단계 탈출 어려움. 일 예산을 ${fmtMan(cpa * 50 / 7)} 이상으로 올리거나 CPA 목표를 낮춰야 함.</div>`;
+    // 종합 권장 — 하한: Meta 최소 6 / 상한: per-creative strict
+    const finalLow = Math.max(6, Math.min(perCreativeStrict, 6));
+    const finalHigh = Math.min(perCreativeStrict, 50);
+    const showLow = Math.min(finalLow, finalHigh);
+    const showHigh = Math.max(finalLow, finalHigh);
+    document.getElementById('m1-final').textContent = `${showLow} ~ ${showHigh}`;
+
+    // 학습 단계 통과
+    const learningMin = (cpa * 50) / 7;
+    const learningCheckEl = document.getElementById('m1-learning-check');
+    if (budget < learningMin) {
+      learningCheckEl.innerHTML = `<div class="callout bad" style="margin-top: 12px;">🚨 <strong>학습 단계 통과 어려움</strong> — Stackmatix 기준 일 ${fmtMan(learningMin)} 필요. 입력 예산 ${fmtMan(budget)}으로는 주 50전환 미달 가능성 높음.</div>`;
+    } else {
+      const conversionsPerWeek = (budget * 7) / cpa;
+      learningCheckEl.innerHTML = `<div class="callout good" style="margin-top: 12px;">✅ <strong>학습 단계 통과 가능</strong> — 주 ${Math.floor(conversionsPerWeek)}전환 달성 가능 (50전환 + 7일 모두 필요)</div>`;
     }
-    if (maxCreatives < 10) {
-      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ <strong>소재 ${maxCreatives}개는 학습 효율 부족</strong> — 광고세트당 10개 이상이 권장됨. 예산을 ${fmtMan(perCreativeMin * 10)} 이상으로 올리거나 소재 수를 줄여서 다른 광고세트와 합치는 게 좋음.</div>`;
+
+    if (perCreativeStrict < 6) {
+      learningCheckEl.innerHTML += `<div class="callout" style="margin-top: 8px;">⚠️ Per-creative strict 결과(${perCreativeStrict}개)가 Meta 공식 최소(6개)보다 적음 → 예산 부족. 일 예산을 늘리거나 CPA 목표를 낮추거나 캠페인을 통합하세요.</div>`;
     }
-    if (!warningHTML) {
-      warningHTML = `<div class="callout tip" style="margin-top:12px;">✅ 안전 기준 충족 — 일 예산이 strict formula와 학습 임계값(주 50전환, 최소 10소재) 모두 만족.</div>`;
-    }
-    warn.innerHTML = warningHTML;
+
     result.classList.add('active');
   }
 
-  // ─── Mode 2: CPA + creatives → budget ───
   function calcM2() {
     const cpa = parseFloat(document.getElementById('m2-cpa').value);
     const count = parseInt(document.getElementById('m2-count').value);
     const result = document.getElementById('m2-result');
-    const warn = document.getElementById('m2-out-warning');
 
     if (!cpa || !count || cpa <= 0 || count <= 0) {
       result.classList.remove('active');
       return;
     }
 
-    const dailyBudget = count * cpa * 3;
-    const weeklyBudget = dailyBudget * 7;
-    const weeklyConversionsAchievable = weeklyBudget / cpa;
-    const monthlyBudget = dailyBudget * 30;
+    const r1 = count * cpa * 3;
+    const r2 = (cpa * 50) / 7;
+    const r3 = cpa * 10;
 
-    document.getElementById('m2-out-budget').textContent = fmt(dailyBudget);
-    document.getElementById('m2-out-detail').innerHTML = `
-      <strong>CPA ${fmtMan(cpa)}</strong>에 소재 <strong>${count}개</strong> 운영 시<br>
-      • 주간 예산: ${fmtMan(weeklyBudget)} → 주 ${Math.floor(weeklyConversionsAchievable)}전환 기대<br>
-      • 월간 예산: ${fmtMan(monthlyBudget)}
-    `;
+    document.getElementById('m2-r1').textContent = fmt(r1);
+    document.getElementById('m2-r2').textContent = fmt(r2);
+    document.getElementById('m2-r3').textContent = fmt(r3);
+
+    const finalBudget = Math.max(r1, r2, r3);
+    document.getElementById('m2-final-val').textContent = fmt(finalBudget);
 
     let warningHTML = '';
-    if (weeklyConversionsAchievable < 50) {
-      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>주 50전환 미달</strong> — 학습 단계 탈출 어려움. 소재 수를 ${Math.ceil(50 / 7 / 3)}개 이상으로 늘려야 함 (예산도 비례 증가).</div>`;
+    if (count < 6) {
+      warningHTML += `<div class="callout">⚠️ Meta 공식 권장 최소 6개 미달. 가능하면 6개 이상 권장.</div>`;
+    } else if (count > 50) {
+      warningHTML += `<div class="callout bad">🚨 Meta 광고세트당 최대 50개 한계 초과. 두 광고세트로 분리 필요.</div>`;
     }
-    if (count < 10) {
-      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ <strong>소재 ${count}개는 학습 효율 부족</strong> — 광고세트당 10개 이상 권장. 가능하면 소재 수를 늘리세요 (일 예산 ${fmtMan(cpa * 3 * 10)} 필요).</div>`;
-    }
-    if (!warningHTML) {
-      warningHTML = `<div class="callout tip" style="margin-top:12px;">✅ 안전 기준 충족 — 학습 임계값과 strict formula 모두 만족.</div>`;
-    }
-    warn.innerHTML = warningHTML;
+    document.getElementById('m2-warnings').innerHTML = warningHTML;
     result.classList.add('active');
   }
 
-  // ─── Mode 3: mixed CPA ───
   function addM3Row() {
     const rows = document.getElementById('m3-rows');
     const row = document.createElement('div');
@@ -431,9 +608,7 @@
     const counts = document.querySelectorAll('#m3-rows .m3-count');
     const result = document.getElementById('m3-result');
 
-    let total = 0;
-    let totalCount = 0;
-    let weightedCpaSum = 0;
+    let total = 0, totalCount = 0, weightedCpaSum = 0;
     const groupRows = [];
 
     for (let i = 0; i < cpas.length; i++) {
@@ -452,47 +627,41 @@
       return;
     }
 
-    document.getElementById('m3-out-total').textContent = fmt(total);
-
     let tableHTML = '';
     groupRows.forEach(g => {
       tableHTML += `<tr><td>그룹 ${g.idx}</td><td>${fmtMan(g.cpa)}</td><td>${g.count}개</td><td>${fmtMan(g.groupBudget)}</td></tr>`;
     });
     document.getElementById('m3-out-table').innerHTML = tableHTML;
 
+    document.getElementById('m3-total').textContent = fmt(total);
+
     const avgCpa = weightedCpaSum / totalCount;
-    const weeklyBudget = total * 7;
-    const weeklyConversions = weeklyBudget / avgCpa;
+    const learningMin = (avgCpa * 50) / 7;
+    document.getElementById('m3-learning').textContent = fmt(learningMin);
 
-    let warningHTML = `
-      <div style="margin-top:14px;">
-        <strong>전체 소재 수:</strong> ${totalCount}개<br>
-        <strong>가중 평균 CPA:</strong> ${fmtMan(avgCpa)} (≈ 광고세트 전체 평균)<br>
-        <strong>주간 예산:</strong> ${fmtMan(weeklyBudget)} → 주 ${Math.floor(weeklyConversions)}전환 기대
-      </div>
-    `;
+    const finalBudget = Math.max(total, learningMin);
+    document.getElementById('m3-final').textContent = fmt(finalBudget);
 
-    // 각 그룹의 CPA 차이 확인
+    let warningHTML = `<div style="margin-top: 12px; color: #d6dff0; font-size: 14px;">
+      <strong>전체 소재 수:</strong> ${totalCount}개 · <strong>가중 평균 CPA:</strong> ${fmtMan(avgCpa)}
+    </div>`;
+
     const cpaValues = groupRows.map(g => g.cpa);
     const maxCpa = Math.max(...cpaValues);
     const minCpa = Math.min(...cpaValues);
     const cpaRatio = maxCpa / minCpa;
 
     if (cpaRatio > 2) {
-      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>그룹 간 CPA 차이가 ${cpaRatio.toFixed(1)}배</strong> — 광고세트 분리를 강력 권장. 한 세트에 묶으면 CPA 높은 그룹이 노출을 거의 못 받음.</div>`;
+      warningHTML += `<div class="callout bad" style="margin-top: 10px;">🚨 그룹 간 CPA 차이 <strong>${cpaRatio.toFixed(1)}배</strong> — Foxwell Digital은 광고세트 분리 권장. 한 세트에 묶으면 CPA 높은 그룹이 노출 거의 못 받음.</div>`;
     } else if (cpaRatio > 1.5) {
-      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ <strong>그룹 간 CPA 차이 ${cpaRatio.toFixed(1)}배</strong> — 가능하면 광고세트 분리 검토.</div>`;
+      warningHTML += `<div class="callout" style="margin-top: 10px;">⚠️ 그룹 간 CPA 차이 ${cpaRatio.toFixed(1)}배 — 가능하면 광고세트 분리 검토.</div>`;
     }
 
-    if (weeklyConversions < 50) {
-      warningHTML += `<div class="callout bad" style="margin-top:12px;">🚨 <strong>주 50전환 미달</strong> — 학습 단계 탈출 어려움.</div>`;
+    if (totalCount < 6) {
+      warningHTML += `<div class="callout" style="margin-top: 10px;">⚠️ 전체 ${totalCount}개는 Meta 공식 권장 6개 미달.</div>`;
     }
 
-    if (totalCount < 10) {
-      warningHTML += `<div class="callout" style="margin-top:12px;">⚠️ 전체 소재 ${totalCount}개는 학습 효율 부족. 광고세트당 10개 이상 권장.</div>`;
-    }
-
-    document.getElementById('m3-out-detail').innerHTML = warningHTML;
+    document.getElementById('m3-warnings').innerHTML = warningHTML;
     result.classList.add('active');
   }
 </script>
