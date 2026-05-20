@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta GEM 시대 — 캠페인 운영 방법론</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --panel: #11182b;
+    --panel-2: #162038;
+    --border: #1f2a44;
+    --text: #e6ecf5;
+    --muted: #9aa7bf;
+    --accent: #4f8cff;
+    --accent-2: #7c5cff;
+    --good: #22c55e;
+    --warn: #f59e0b;
+    --bad: #ef4444;
+    --pill-bg: #1a2440;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif; line-height: 1.75; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  header.hero {
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, #14224a 0%, #1a1340 100%);
+    border-radius: 20px;
+    padding: 36px 32px;
+    margin-bottom: 28px;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--pill-bg);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.5px;
+  }
+  h1 { font-size: 30px; line-height: 1.3; margin: 14px 0 8px; }
+  .subtitle { color: var(--muted); font-size: 15px; margin-bottom: 0; line-height: 1.65; }
+
+  nav.toc { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 20px; margin-bottom: 24px; font-size: 14px; }
+  nav.toc strong { color: #cfe0ff; display: block; margin-bottom: 6px; }
+  nav.toc a { color: var(--muted); text-decoration: none; margin-right: 14px; line-height: 2; }
+  nav.toc a:hover { color: var(--accent); }
+
+  section { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 28px 28px; margin-bottom: 20px; scroll-margin-top: 20px; }
+  h2 { font-size: 22px; margin: 0 0 18px; display: flex; align-items: center; gap: 10px; line-height: 1.4; }
+  h2 .num { display: inline-flex; align-items: center; justify-content: center; min-width: 28px; height: 28px; background: var(--accent); color: #fff; border-radius: 8px; font-size: 14px; font-weight: 700; padding: 0 8px; }
+  h3 { font-size: 17px; margin: 28px 0 10px; color: #cfe0ff; }
+  h3:first-of-type { margin-top: 6px; }
+  h4 { font-size: 15px; margin: 14px 0 6px; color: #b9c8e5; }
+  p { margin: 8px 0 12px; color: #d6dff0; }
+  ul { padding-left: 22px; margin: 6px 0 10px; }
+  li { margin: 6px 0; color: #d6dff0; }
+  code { background: var(--panel-2); padding: 2px 6px; border-radius: 4px; font-size: 13px; color: #cfe0ff; }
+  strong { color: #fff; }
+
+  .tldr { background: linear-gradient(135deg, rgba(79,140,255,0.14), rgba(124,92,255,0.08)); border-left: 4px solid var(--accent); padding: 18px 22px; border-radius: 12px; margin-bottom: 18px; }
+  .tldr strong { color: #fff; }
+
+  .callout { background: rgba(34,197,94,0.08); border-left: 4px solid var(--good); padding: 14px 18px; border-radius: 10px; margin: 14px 0; color: #d6dff0; font-size: 14px; }
+  .callout.warn { background: rgba(245,158,11,0.08); border-left-color: var(--warn); }
+  .callout.bad { background: rgba(239,68,68,0.08); border-left-color: var(--bad); }
+  .callout.tip { background: rgba(124,92,255,0.08); border-left-color: var(--accent-2); }
+  .callout strong { color: #fff; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--panel-2); color: #cfe0ff; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  td .good { color: var(--good); font-weight: 600; }
+  td .warn { color: var(--warn); font-weight: 600; }
+  td .bad { color: var(--bad); font-weight: 600; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 16px 0 10px; }
+  .stat { background: var(--panel-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 20px; text-align: center; }
+  .stat .val { font-size: 32px; font-weight: 700; color: var(--good); line-height: 1.2; }
+  .stat .val.accent { color: var(--accent); }
+  .stat .metric { font-size: 15px; font-weight: 600; color: #cfe0ff; margin-top: 4px; }
+  .stat .label { color: var(--muted); font-size: 12px; margin-top: 6px; line-height: 1.5; }
+  .stat .formula { font-size: 12px; color: var(--accent-2); margin-top: 6px; font-style: italic; }
+
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+  .do, .dont { padding: 16px 18px; border-radius: 10px; font-size: 14px; }
+  .do { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.3); }
+  .dont { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); }
+  .do .label, .dont .label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; }
+  .do .label { color: var(--good); }
+  .dont .label { color: var(--bad); }
+  .do ul, .dont ul { margin: 0; padding-left: 18px; }
+  .do li, .dont li { margin: 5px 0; }
+
+  .area-card { background: var(--panel-2); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px; margin: 14px 0; }
+  .area-card h3 { margin-top: 0; font-size: 17px; color: #fff; }
+  .area-card h3 .emoji { font-size: 20px; margin-right: 6px; }
+
+  .formula-box { background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; margin: 10px 0; font-size: 14px; }
+  .formula-box .eq { font-family: ui-monospace, "SF Mono", Menlo, monospace; color: #cfe0ff; font-size: 15px; }
+
+  .footer-note { text-align: center; color: var(--muted); font-size: 13px; margin-top: 32px; line-height: 1.9; border-top: 1px solid var(--border); padding-top: 24px; }
+  .footer-note ul { list-style: none; padding: 0; margin: 8px 0 0; }
+  .footer-note li { color: var(--muted); margin: 4px 0; }
+
+  @media (max-width: 640px) {
+    h1 { font-size: 22px; }
+    .wrap { padding: 32px 16px 60px; }
+    section { padding: 22px 18px; }
+    .do-dont { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="tag">📌 출처 기반 — 메타 공식 가이드, GEM 백서, Five Nine Strategy A/B 테스트 등</span>
+    <h1>Meta GEM 시대 — 캠페인 운영 방법론</h1>
+    <p class="subtitle">
+      라이브 → 운영 → 평가, 단계별 정리 (출처 있는 내용만)
+    </p>
+  </header>
+
+  <nav class="toc">
+    <strong>3단계 운영 흐름</strong>
+    <a href="#s1">① 캠페인 라이브</a>
+    <a href="#s2">② 라이브 후 운영</a>
+    <a href="#s3">③ 성과 평가 및 소재 교체</a>
+  </nav>
+
+  <!-- ─────────────────────────────────────────────
+       STAGE 1: 캠페인 라이브
+       ───────────────────────────────────────────── -->
+  <section id="s1">
+    <h2><span class="num">1</span> 캠페인 라이브</h2>
+
+    <div class="tldr">
+      <strong>라이브 전에 결정해야 할 7가지</strong> — 캠페인 구조, 예산, 소재 수, 최적화 목표, 타게팅, 플레이스먼트, 신호 인프라.
+      라이브 후 변경하면 학습이 리셋되므로 시작 전에 확정해야 합니다.
+    </div>
+
+    <!-- 1-1 -->
+    <h3>1-1. 캠페인 구조 — 통합 구조 권장</h3>
+    <ul>
+      <li>권장: <strong>1 캠페인 / 1 광고 세트 / 통합 소재 다수</strong></li>
+      <li>근거: Five Nine Strategy 45일 A/B 테스트 — 5세트 × 5소재 분리 vs 1세트 × 25소재 통합 → <strong>전환율 17% 상승, CPA 16% 감소</strong> (통합이 우세)</li>
+      <li>이유: 신호가 한 세트에 집중되어 GEM 학습 데이터 밀도 ↑</li>
+    </ul>
+
+    <!-- 1-2 -->
+    <h3>1-2. 예산 계산법</h3>
+
+    <div class="do-dont">
+      <div class="do">
+        <span class="label">✅ 황금 공식 ① — 주간</span>
+        <p style="margin:0 0 6px;"><strong>주간 예산 = 목표 CPA × 50</strong></p>
+        <ul>
+          <li>광고세트당 주 50건 전환 확보</li>
+          <li>출처: Meta 공식 (학습 단계 종료 기준)</li>
+        </ul>
+      </div>
+      <div class="do">
+        <span class="label">✅ 황금 공식 ② — 일일</span>
+        <p style="margin:0 0 6px;"><strong>일일 예산 = 목표 CPA × 3</strong></p>
+        <ul>
+          <li>소재가 도태되기 전 충분한 기회 확보</li>
+          <li>출처: Flâneur Archives</li>
+        </ul>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>목표 CPA</th>
+          <th>주간 최소 예산 (× 50)</th>
+          <th>일일 최소 예산 (× 3)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>3만원</td>
+          <td>150만원</td>
+          <td>9만원</td>
+        </tr>
+        <tr>
+          <td>5만원</td>
+          <td>250만원</td>
+          <td>15만원</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 1-3 -->
+    <h3>1-3. 소재 수 결정</h3>
+    <div class="formula-box">
+      <span class="eq">소재 상한선 = 일일 예산 ÷ (목표 CPA × 3)</span>
+    </div>
+    <ul>
+      <li>광고세트당 <strong>10~15개 이상</strong>부터 의미 있는 학습 시작 (가이드)</li>
+      <li>상위 광고주는 <strong>20~50개 구간</strong>에서 ROAS 최대화 (가이드)</li>
+    </ul>
+
+    <!-- 1-4 -->
+    <h3>1-4. 최적화 목표</h3>
+    <ul>
+      <li>기본: <strong>구매</strong> (가장 정확한 신호)</li>
+      <li>예외: 전환이 너무 적은 신규 계정만 "장바구니 추가" · "결제 시작" 같은 상위 단계 임시 사용 → 전환 쌓이는 즉시 구매로 변경</li>
+    </ul>
+    <div class="callout warn">
+      ⚠️ <strong>최적화 목표 변경 = 학습 리셋.</strong> 임시로 상위 단계를 쓰더라도 변경 시점에 학습 단계가 처음부터 다시 시작된다는 점을 고려해야 합니다.
+    </div>
+
+    <!-- 1-5 -->
+    <h3>1-5. 타게팅</h3>
+    <ul>
+      <li>권장: <strong>광범위 타게팅 (Advantage+)</strong></li>
+      <li>이유: Andromeda가 소재 내용 자체를 읽고 적합한 사람을 매칭. 좁은 관심사 설정은 이중 필터가 되어 효율 급락</li>
+      <li>소재 안에 페르소나의 일상 · 언어 · 고민을 담으면 Andromeda가 알아서 찾음</li>
+    </ul>
+
+    <!-- 1-6 -->
+    <h3>1-6. 플레이스먼트</h3>
+    <ul>
+      <li><strong>자동 (모든 면)</strong> 선택</li>
+      <li>이유: Lattice가 피드 / 스토리 / 릴스 / 메신저를 통합 랭킹. 수동 선택은 손해</li>
+    </ul>
+
+    <!-- 1-7 -->
+    <h3>1-7. 신호 인프라</h3>
+    <ul>
+      <li><strong>CAPI 설정 필수</strong> — 커머스도 픽셀만으로는 30~50% 데이터 손실</li>
+      <li><strong>EMQ 9.0 이상 목표</strong> — 9.3 달성 시 CPA 약 18% 감소</li>
+      <li>마이크로 전환(장바구니 추가, 결제 시작)도 함께 전송 → 신호 밀도 보강</li>
+    </ul>
+
+    <!-- 1-8 -->
+    <h3>1-8. 소재 다양성 — P.D.A 프레임워크</h3>
+    <div class="area-card">
+      <h3><span class="emoji">🎨</span>P.D.A (Persona × Desire × Awareness)</h3>
+      <ul>
+        <li>시각적 변형 X, <strong>의미론적 다양성</strong> O</li>
+        <li>색 · 배경만 바꾸면 Andromeda가 <strong>Entity ID</strong>로 묶어서 중복 처리</li>
+        <li>본질(페르소나 × 욕구 × 인지 단계)이 다른 소재로 구성해야 학습 재료가 됨</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────
+       STAGE 2: 라이브 후 운영
+       ───────────────────────────────────────────── -->
+  <section id="s2">
+    <h2><span class="num">2</span> 라이브 후 운영</h2>
+
+    <div class="tldr">
+      <strong>학습 단계는 건드리지 않는 게 핵심.</strong> 7일 또는 50전환까지 인내.
+      매주 신규 소재 공급 루틴만 유지합니다.
+    </div>
+
+    <!-- 2-1 -->
+    <h3>2-1. 학습 기간 — 7일 또는 50전환까지 손대지 말기</h3>
+    <div class="callout warn">
+      <ul style="margin:0;">
+        <li>광고세트가 <strong>50 전환</strong>을 모으기 전까지 평가 금지</li>
+        <li>학습 단계에서 끄거나 큰 변경 → 처음부터 다시 학습 → 예산 낭비</li>
+        <li><strong>7일과 50전환 중 먼저 달성되는 쪽</strong>이 기준</li>
+      </ul>
+    </div>
+
+    <!-- 2-2 -->
+    <h3>2-2. 학습을 망치는 변경 vs 안전한 변경</h3>
+    <div class="do-dont">
+      <div class="dont">
+        <span class="label">❌ DON'T (학습 리셋 유발)</span>
+        <ul>
+          <li>예산 50% 이상 급변</li>
+          <li>최적화 목표 변경 (구매 → 장바구니 등)</li>
+          <li>타겟 변경</li>
+          <li>광고세트 자체 끄기 / 켜기</li>
+          <li>매일 ROAS 보고 미세 조정</li>
+        </ul>
+      </div>
+      <div class="do">
+        <span class="label">✅ DO (안전한 조정)</span>
+        <ul>
+          <li>예산 증액: <strong>20% 이하씩 / 3~4일 간격</strong>으로 점진적</li>
+          <li>성과 나쁜 <strong>개별 소재만</strong> 끄기</li>
+          <li>새 소재 추가</li>
+          <li>주 단위 검토</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2-3 -->
+    <h3>2-3. 신규 소재 공급 루틴</h3>
+    <ul>
+      <li><strong>매주 2~3개 신규 소재 추가</strong> — GEM이 학습할 새 재료가 끊기지 않게</li>
+      <li>빈도 <strong>2.5+</strong> 시 교체 준비, <strong>3.0+</strong> 시 즉시 교체</li>
+      <li>예산 증액 전에 소재를 먼저 확보 (소재 부족 + 예산 증액 = 같은 소재 반복 노출)</li>
+    </ul>
+
+    <!-- 2-4 -->
+    <h3>2-4. 변경 빈도 — 인내가 곧 성과</h3>
+    <div class="callout tip">
+      <ul style="margin:0;">
+        <li><strong>예전:</strong> 매일 캠페인 켜고 끄고 미세 조정</li>
+        <li><strong>지금:</strong> 인내가 곧 성과 — 변경 빈도 자체를 줄임</li>
+        <li>변경할 때마다 학습 리셋 가능성</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────
+       STAGE 3: 성과 평가 및 소재 교체
+       ───────────────────────────────────────────── -->
+  <section id="s3">
+    <h2><span class="num">3</span> 성과 평가 및 소재 교체</h2>
+
+    <div class="tldr">
+      <strong>50전환 채우기 전에 평가하지 말 것.</strong> 평가는 3~7일 롤링 평균으로,
+      소재 교체는 빈도 지표 기반으로 판단합니다.
+    </div>
+
+    <!-- 3-1 -->
+    <h3>3-1. 측정 체계 — 플랫폼 ROAS 단독 판단 금지</h3>
+    <ul>
+      <li>이유: 플랫폼 ROAS 어트리뷰션 윈도우가 동적으로 바뀌어 신뢰도 하락</li>
+      <li><strong>MER + 플랫폼 ROAS + GA4 + CRM 삼각 측정</strong></li>
+    </ul>
+    <div class="formula-box">
+      <span class="eq">MER (Marketing Efficiency Ratio) = 총 매출 ÷ 총 광고비</span>
+    </div>
+
+    <!-- 3-2 -->
+    <h3>3-2. 소재 단위 평가 지표</h3>
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="val">30%+</div>
+        <div class="metric">Hook Rate</div>
+        <div class="formula">3초 이상 시청 / 전체 노출</div>
+      </div>
+      <div class="stat">
+        <div class="val">10%+</div>
+        <div class="metric">Hold Rate</div>
+        <div class="formula">15초 이상 시청 / 전체 노출</div>
+      </div>
+      <div class="stat">
+        <div class="val accent">9.0+</div>
+        <div class="metric">EMQ</div>
+        <div class="formula">신호 품질 점수</div>
+      </div>
+    </div>
+
+    <h4 style="margin-top:20px;">CTR × CVR 조합 판단</h4>
+    <div class="do-dont">
+      <div class="dont">
+        <span class="label">❌ CTR↑ + CVR↓</span>
+        <p style="margin:0;"><strong>즉시 중단.</strong> GEM이 "이 광고 고객은 구경꾼"이라 학습 → 광고비 낭비로 이어짐</p>
+      </div>
+      <div class="do">
+        <span class="label">✅ CTR↓ + CVR↑</span>
+        <p style="margin:0;"><strong>유지.</strong> 필터링 크리에이티브 — 구매 의향 있는 사람만 클릭하는 정상 패턴</p>
+      </div>
+    </div>
+
+    <!-- 3-3 -->
+    <h3>3-3. 평가 타이밍</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>단계</th>
+          <th>기준</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>학습 완료 전</td>
+          <td><span class="bad">평가 금지</span> (50전환 / 7일)</td>
+        </tr>
+        <tr>
+          <td>학습 완료 후</td>
+          <td><span class="good">3~7일 롤링 평균</span>으로 판단</td>
+        </tr>
+        <tr>
+          <td>소재 단위</td>
+          <td>최소 <strong>1주일 데이터</strong> 확보 후 판단</td>
+        </tr>
+        <tr>
+          <td>일일 변동</td>
+          <td><span class="warn">무시</span> (다음날 회복하는 경우 많음)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 3-4 -->
+    <h3>3-4. 소재 교체 트리거</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>빈도</th>
+          <th>상태</th>
+          <th>액션</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>2.5 이상</strong></td>
+          <td>🟡 주의</td>
+          <td><span class="warn">교체 준비</span></td>
+        </tr>
+        <tr>
+          <td><strong>3.0 이상</strong></td>
+          <td>🔴 위험</td>
+          <td><span class="bad">즉시 교체</span></td>
+        </tr>
+        <tr>
+          <td>빈도↑ + CTR↓ + CPM↑ 동시</td>
+          <td>🚨 명백한 피로</td>
+          <td><span class="bad">즉시 교체</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      ⚠️ 고정 사이클(10~14일)은 업계 평균이지 메타 공식 아님. <strong>빈도 지표 기반 트리거가 공식 방식</strong>입니다.
+    </div>
+
+    <!-- 3-5 -->
+    <h3>3-5. 모든 소재가 부진할 때 — 진단 순서</h3>
+    <div class="callout bad">
+      <strong>이 시점에서는 알고리즘 문제가 아닙니다.</strong> 학습이 완료된 상태에서 모든 소재가 부진하면 <strong>상류 문제</strong>입니다.
+    </div>
+
+    <div class="area-card">
+      <h3><span class="emoji">🔍</span>진단 순서 (Foxwell Digital, Sam Tomlinson 등)</h3>
+      <ol style="padding-left:22px; margin:6px 0;">
+        <li style="margin:8px 0;"><strong>오퍼</strong> — 가격, 가치 제안이 시장에서 경쟁력 있는가</li>
+        <li style="margin:8px 0;"><strong>랜딩페이지</strong> — 콜드 트래픽 CVR 1~3% 나오는가</li>
+        <li style="margin:8px 0;"><strong>신호 품질</strong> — Events Manager에서 픽셀+CAPI 중복, 잘못된 이벤트 추적 여부</li>
+      </ol>
+    </div>
+
+    <div class="do-dont">
+      <div class="dont">
+        <span class="label">❌ 하지 말 것</span>
+        <ul>
+          <li>새 캠페인을 만들어 기존 학습 데이터 버리기 (원인을 못 고치면 새 캠페인도 똑같이 실패)</li>
+          <li>의도적으로 예산 50%+ 변경해 ML 리셋 (어떤 공식 · 신뢰할 수 있는 출처도 권장하지 않음)</li>
+        </ul>
+      </div>
+      <div class="do">
+        <span class="label">✅ 해야 할 것</span>
+        <ul>
+          <li>상류 원인(오퍼 / 랜딩 / 신호)을 먼저 고친 후</li>
+          <li>완전히 다른 소구점의 소재를 광고 레벨에서 추가 테스트</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────
+       FOOTER
+       ───────────────────────────────────────────── -->
+  <div class="footer-note">
+    <strong style="color:#cfe0ff;">출처</strong>
+    <ul>
+      <li>Meta Business Help Center — About the Learning Phase</li>
+      <li>Meta Engineering Blog — GEM, Andromeda, Lattice</li>
+      <li>Five Nine Strategy 45일 A/B 테스트</li>
+      <li>Flâneur Archives — "목표 CPA × 3" 법칙</li>
+      <li>Foxwell Digital, Sam Tomlinson, Jon Loomer — 진단 프레임워크</li>
+      <li>바리바디 GEM 광고 알고리즘 정리본</li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
